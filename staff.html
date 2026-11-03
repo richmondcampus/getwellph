@@ -48,6 +48,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .me{padding:16px 22px;border-top:1px solid rgba(241,234,214,.12);font-size:13px}
 .me b{display:block;font-weight:500;font-size:14px}
 .me span{opacity:.65}
+.mob-only{display:none}
 .me button{margin-top:8px;background:none;border:1px solid rgba(241,234,214,.3);color:var(--cream);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:13px}
 .main{min-width:0;padding:28px 32px 64px}
 .head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
@@ -74,6 +75,7 @@ input.warn{background:var(--warn-bg);border-color:#e4c37a}
 .f{margin-bottom:12px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g2>*,.g3>*{min-width:0}
 .seg{display:inline-flex;max-width:100%;overflow-x:auto;border:1px solid var(--line2);border-radius:8px;background:#fff}
 .seg a,.seg button{white-space:nowrap}
 .seg a,.seg button{padding:8px 14px;text-decoration:none;color:var(--ink);border:0;border-right:1px solid var(--line);background:none;cursor:pointer}
@@ -137,6 +139,12 @@ tbody tr.click:hover{background:#fafaf5}
 .bp span{color:var(--muted)}
 .bp input{padding:9px 4px;text-align:center}
 .sum-row{display:flex;justify-content:space-between;padding:4px 0;font-variant-numeric:tabular-nums}
+.pay-old{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.pay-old.rm{opacity:.5;text-decoration:line-through}
+.pay-old .x{border:0;background:none;color:var(--muted);cursor:pointer;font-size:13px;text-decoration:underline}
+.pay-new{background:#f7f6ef;border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px}
+.pay-new .row{display:grid;grid-template-columns:1fr 1fr 28px;gap:8px;align-items:end}
+.pay-new .del{border:0;background:none;font-size:18px;color:var(--muted);cursor:pointer;height:36px}
 .sum-row.total{font-size:20px;font-weight:600;border-top:1px solid var(--line);margin-top:6px;padding-top:10px}
 .picker{position:relative}
 .picker .results{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid var(--line2);border-radius:10px;box-shadow:0 10px 30px rgba(18,48,29,.15);z-index:5;max-height:320px;overflow:auto}
@@ -193,6 +201,8 @@ tbody tr.click:hover{background:#fafaf5}
   .side nav a.on{box-shadow:inset 0 -2px 0 var(--gold-soft)}
   .me{position:absolute;top:8px;right:12px;border:0;padding:0;text-align:right}
   .me b,.me span{display:none}
+  .me .desk-only{display:none}
+  .me .mob-only{display:inline-block}
   .me button{margin:0}
   .main{padding:18px 14px 64px}
   .split,.g3,.cond-grid{grid-template-columns:1fr 1fr}
@@ -222,14 +232,14 @@ tbody tr.click:hover{background:#fafaf5}
     <p class="s">Sign in to record visits and sales.</p>
     <div id="cfgWarn" class="alert warn" hidden>The system isn’t connected yet. Please contact your system administrator.</div>
     <form id="loginForm">
-      <div class="f"><label for="lgEmail">Email</label><input id="lgEmail" type="email" autocomplete="username" required></div>
+      <div class="f"><label for="lgEmail">Email or username</label><input id="lgEmail" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
       <div class="f"><label for="lgPass">Password</label><input id="lgPass" type="password" autocomplete="current-password" required></div>
       <button class="btn pri" style="width:100%;padding:12px" id="lgBtn">Sign in</button>
       <p id="lgErr" class="small" style="color:var(--bad);min-height:1.5em;margin:10px 0 0"></p>
     </form>
     <form id="forgotForm" hidden>
       <p class="small" style="margin:0 0 12px">Enter your email and we’ll send a link to set a new password.</p>
-      <div class="f"><label for="fgEmail">Email</label><input id="fgEmail" type="email" autocomplete="username" required></div>
+      <div class="f"><label for="fgEmail">Email</label><input id="fgEmail" type="text" autocomplete="username" autocapitalize="none" required></div>
       <button class="btn pri" style="width:100%;padding:12px" id="fgBtn">Send reset link</button>
       <p id="fgMsg" class="small" style="min-height:1.5em;margin:10px 0 0"></p>
     </form>
@@ -265,7 +275,7 @@ tbody tr.click:hover{background:#fafaf5}
     <a class="brand" href="#/">move<img src="assets/icon-light.png" alt=""><span class="w">well</span></a>
     <div class="loc">Marikina Sports Center</div>
     <nav id="nav" aria-label="Sections"></nav>
-    <div class="me"><b id="meName"></b><span id="meRole"></span><br><button id="chgPw">Change password</button> <button id="signOut">Sign out</button></div>
+    <div class="me"><b id="meName"></b><span id="meRole"></span><br><button id="acctBtn" class="mob-only">Account</button><span class="desk-only"><button id="addEmail" hidden>Add email</button> <button id="chgPw">Change password</button> <button id="signOut">Sign out</button></span></div>
   </aside>
   <main class="main" id="view"></main>
 </div>
@@ -284,6 +294,10 @@ tbody tr.click:hover{background:#fafaf5}
 const cfg = window.MOVEWELL_CONFIG || {};
 const CONFIGURED = !!(cfg.SUPABASE_URL && !/YOUR-PROJECT/.test(cfg.SUPABASE_URL) && window.supabase);
 const sb = CONFIGURED ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
+// Username-only logins use an internal address that never receives mail. Must match the staff-admin function.
+const LOGIN_DOMAIN = cfg.LOGIN_DOMAIN || "staff.movewellph.com";
+const toLoginEmail = id => { id = id.trim().toLowerCase(); return id.includes("@") ? id : `${id}@${LOGIN_DOMAIN}`; };
+const isInternalEmail = e => (e || "").toLowerCase().endsWith("@" + LOGIN_DOMAIN);
 
 const S = { me: null, staff: [], services: [], settings: {}, pendingCount: 0 };
 const $ = (s, r = document) => r.querySelector(s);
@@ -307,7 +321,8 @@ const role = () => S.me ? S.me.role : null;
 const canManage = () => ["admin", "frontdesk"].includes(role());
 const isAdmin = () => role() === "admin";
 const ROLE_LABEL = {admin: "Admin", frontdesk: "Front desk", therapist: "Therapist", doctor: "Doctor", pending: "Pending"};
-const PAY_LABEL = {cash: "Cash", gcash: "GCash", maya: "Maya", card: "Card", bank: "Bank transfer", other: "Other"};
+const PAY_LABEL = {cash: "Cash", gcash: "GCash", maya: "Maya", card: "Card", bank: "Bank transfer", other: "Other", mixed: "Mixed"};
+const PAY_METHODS = ["cash", "gcash", "maya", "card", "bank", "other"];
 const DISC_LABEL = {none: "No discount", senior: "Senior citizen (20%)", pwd: "PWD (20%)", promo_pct: "Promo (%)", promo_amt: "Promo (₱ off)"};
 const CONDITIONS = ["Hypertension","Diabetes","Heart condition","Pregnant","Recently gave birth","Recent surgery or injury","Varicose veins","Blood clotting disorder / blood thinners","Skin condition or open wounds","Kidney disease","G6PD deficiency","Asthma","Epilepsy","Cancer (under treatment)","Osteoporosis"];
 const STATUS_PILL = s => s === "paid" ? `<span class="pill ok">Paid</span>` : s === "partial" ? `<span class="pill warn">Partial</span>` : `<span class="pill bad">Unpaid</span>`;
@@ -392,12 +407,14 @@ $("#forgotLink").onclick = e => {
   const f = $("#forgotForm"), showing = !f.hidden;
   f.hidden = showing; $("#loginForm").hidden = !showing;
   e.target.textContent = showing ? "Forgot password?" : "Back to sign in";
-  if (!showing) { $("#fgEmail").value = $("#lgEmail").value; $("#fgEmail").focus(); }
+  if (!showing) { $("#fgEmail").value = $("#lgEmail").value.includes("@") ? $("#lgEmail").value : ""; $("#fgMsg").textContent = ""; $("#fgEmail").focus(); }
 };
 $("#forgotForm").addEventListener("submit", async e => {
   e.preventDefault();
+  const fgv = $("#fgEmail").value.trim(), m0 = $("#fgMsg");
+  if (!fgv.includes("@")) { m0.style.color = "var(--bad)"; m0.textContent = "Accounts without an email can’t reset by link. Ask the admin to set a new password for you."; return; }
   const btn = $("#fgBtn"); btn.disabled = true; btn.textContent = "Sending…";
-  const { error } = await sb.auth.resetPasswordForEmail($("#fgEmail").value.trim(), { redirectTo: location.origin + location.pathname });
+  const { error } = await sb.auth.resetPasswordForEmail(fgv, { redirectTo: location.origin + location.pathname });
   btn.disabled = false; btn.textContent = "Send reset link";
   const m = $("#fgMsg");
   if (error && /rate|limit|seconds/i.test(error.message)) { m.style.color = "var(--bad)"; m.textContent = "Too many requests. Wait a minute, then try again."; return; }
@@ -421,13 +438,38 @@ $("#pwForm").addEventListener("submit", async e => {
 $("#loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   const btn = $("#lgBtn"); btn.disabled = true; btn.textContent = "Signing in…"; $("#lgErr").textContent = "";
-  const { error } = await sb.auth.signInWithPassword({ email: $("#lgEmail").value.trim(), password: $("#lgPass").value });
+  const { error } = await sb.auth.signInWithPassword({ email: toLoginEmail($("#lgEmail").value), password: $("#lgPass").value });
   btn.disabled = false; btn.textContent = "Sign in";
-  if (error) { $("#lgErr").textContent = /invalid/i.test(error.message) ? "Wrong email or password." : error.message; return; }
+  if (error) { $("#lgErr").textContent = /invalid/i.test(error.message) ? "Wrong email, username or password." : error.message; return; }
   $("#lgPass").value = "";
   await boot();
 });
 $("#signOut").onclick = () => sb.auth.signOut();
+$("#acctBtn").onclick = () => {
+  const m = openModal(`<h3>${esc(S.me.full_name)}</h3><p class="muted" style="margin-top:-8px">${esc(ROLE_LABEL[S.me.role])}${S.me.email ? " · " + esc(S.me.email) : S.me.username ? " · " + esc(S.me.username) : ""}</p>
+    <div style="display:grid;gap:8px">${S.me.email ? "" : `<button class="btn" data-a="addEmail">Add email</button>`}
+    <button class="btn" data-a="chgPw">Change password</button><button class="btn danger" data-a="signOut">Sign out</button>
+    <button class="btn" data-x>Close</button></div>`);
+  $("[data-x]", m).onclick = closeModal;
+  $$("[data-a]", m).forEach(bt => bt.onclick = () => { const t = bt.dataset.a; closeModal(); $("#" + t).click(); });
+};
+$("#addEmail").onclick = () => {
+  const m = openModal(`<h3>Add your email</h3><form id="aeForm">
+    <p>With an email on your account you can use <b>Forgot password?</b> if you ever forget it.</p>
+    <div class="f"><label>Email</label><input type="email" id="aeEmail" required autocomplete="email"></div>
+    <p class="small muted">After this, sign in with your email instead of your username. Your password stays the same.</p>
+    <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri" id="aeBtn">Save email</button></div></form>`);
+  $("[data-x]", m).onclick = closeModal;
+  $("#aeForm").onsubmit = async e => {
+    e.preventDefault();
+    const email = $("#aeEmail").value.trim().toLowerCase(); const btn = $("#aeBtn"); btn.disabled = true;
+    try {
+      await staffAdmin({ action: "set_email", staff_id: S.me.id, email });
+      S.me.email = email; $("#addEmail").hidden = true; $("#meRole").textContent = ROLE_LABEL[S.me.role];
+      closeModal(); toast("Email saved. Sign in with it from now on.");
+    } catch (err) { btn.disabled = false; toast(err.message, true); }
+  };
+};
 $("#chgPw").onclick = () => {
   const m = openModal(`<h3>Change password</h3><form id="cpForm">
     <div class="f"><label>New password</label><input type="password" id="cp1" autocomplete="new-password" minlength="8" required></div>
@@ -460,7 +502,8 @@ async function boot() {
   }
   S.me = me;
   $("#meName").textContent = me.full_name;
-  $("#meRole").textContent = ROLE_LABEL[me.role];
+  $("#meRole").textContent = ROLE_LABEL[me.role] + (me.username && !me.email ? ` · ${me.username}` : "");
+  $("#addEmail").hidden = !!me.email;
   await loadRefs();
   show("appView");
   if (!window._routed) { window.addEventListener("hashchange", route); window._routed = true; }
@@ -560,12 +603,12 @@ function rangeFor(params) {
   }
   return { r: "today", from: t, to: t, label: "Today" };
 }
-function aggregate(rows) {
+function aggregate(rows, pays) {
   const A = { collected: 0, billed: 0, discount: 0, unpaid: 0, count: rows.length, clients: new Set(), method: {}, cat: {}, staff: {}, svc: {} };
+  pays.forEach(p => { A.collected += +p.amount; A.method[p.method] = (A.method[p.method] || 0) + +p.amount; });
   rows.forEach(v => {
-    A.collected += +v.amount_paid; A.billed += +v.total; A.discount += +v.discount_amount;
-    A.unpaid += (+v.total - +v.amount_paid); A.clients.add(v.client_id);
-    if (+v.amount_paid > 0) { const m = v.payment_method || "other"; A.method[m] = (A.method[m] || 0) + +v.amount_paid; }
+    A.billed += +v.total; A.discount += +v.discount_amount;
+    A.unpaid += Math.max(0, +v.total - +v.amount_paid); A.clients.add(v.client_id);
     (v.items || []).forEach(i => {
       const c = i.category || "Other"; A.cat[c] = (A.cat[c] || 0) + +i.line_total;
       const s = i.staff_id || "none"; A.staff[s] = A.staff[s] || { amt: 0, n: 0 }; A.staff[s].amt += +i.line_total; A.staff[s].n += i.qty || 1;
@@ -583,11 +626,11 @@ function barList(obj, fmt, labelFn) {
     return `<div class="row"><span>${esc(labelFn ? labelFn(k) : k)}${v.n ? ` <span class="muted small">× ${v.n}</span>` : ""}</span><div class="track"><div class="fill" style="width:${Math.max(2, amt / max * 100)}%"></div></div><span class="num">${fmt(amt)}</span></div>`;
   }).join("") + `</div>`;
 }
-function dayChart(rows, from, to) {
+function dayChart(pays, from, to) {
   let start = dayDiff(from, to) < 13 ? addDays(to, -13) : from;
   if (dayDiff(start, to) > 61) start = addDays(to, -61);
   const days = []; for (let d = start; d <= to; d = addDays(d, 1)) days.push(d);
-  const byDay = {}; rows.forEach(v => byDay[v.visit_date] = (byDay[v.visit_date] || 0) + +v.amount_paid);
+  const byDay = {}; pays.forEach(p => byDay[p.pay_date] = (byDay[p.pay_date] || 0) + +p.amount);
   const max = Math.max(1, ...days.map(d => byDay[d] || 0));
   const W = 720, H = 180, pad = 22, bw = (W - 8) / days.length;
   const bars = days.map((d, i) => {
@@ -607,9 +650,13 @@ async function pageDashboard(params) {
     .eq("voided", false).gte("visit_date", chartFrom).lte("visit_date", R.to)
     .order("visit_date", { ascending: false }).order("time_in", { ascending: false });
   if (error) throw error;
+  const { data: payData, error: pErr } = await sb.from("visit_payments").select("amount,method,pay_date,visits!inner(voided)")
+    .eq("visits.voided", false).gte("pay_date", chartFrom).lte("pay_date", R.to);
+  if (pErr) throw pErr;
   await refreshPending();
   const rows = data.filter(v => v.visit_date >= R.from);
-  const A = aggregate(rows);
+  const pays = payData.filter(p => p.pay_date >= R.from);
+  const A = aggregate(rows, pays);
   const presets = [["today", "Today"], ["yesterday", "Yesterday"], ["week", "This week"], ["month", "This month"], ["lastmonth", "Last month"]];
   const period = R.from === R.to ? fmtDay(R.from) : `${fmtDate(R.from)} – ${fmtDate(R.to)}`;
   $("#view").innerHTML = head("Sales", period,
@@ -618,12 +665,12 @@ async function pageDashboard(params) {
       <span class="muted small">or</span><input type="date" id="cf" value="${R.from}"> <span class="muted">to</span> <input type="date" id="ct" value="${R.to}"><button class="btn sm" id="cApply">Show</button></div>` +
     (S.pendingCount ? `<div class="alert info"><b>${S.pendingCount} booking request${S.pendingCount > 1 ? "s" : ""}</b> waiting for confirmation. <a href="#/bookings">Review bookings</a></div>` : "") +
     `<div class="kpis">
-      <div class="kpi main"><div class="l">Collected</div><div class="v">${peso(A.collected)}</div><div class="h">Cash, GCash, card and other payments received</div></div>
+      <div class="kpi main"><div class="l">Collected</div><div class="v">${peso(A.collected)}</div><div class="h">Payments received in this period, incl. balances from earlier visits</div></div>
       <div class="kpi"><div class="l">Visits</div><div class="v">${A.count}</div><div class="h">${A.clients.size} client${A.clients.size === 1 ? "" : "s"}</div></div>
       <div class="kpi"><div class="l">Average per visit</div><div class="v">${peso0(A.count ? A.billed / A.count : 0)}</div><div class="h">Billed ${peso(A.billed)}</div></div>
       <div class="kpi"><div class="l">Unpaid balance</div><div class="v" style="color:${A.unpaid > 0 ? "var(--bad)" : "inherit"}">${peso(A.unpaid)}</div><div class="h">Discounts given ${peso(A.discount)}</div></div>
     </div>
-    <div class="card chart"><h2>Collected per day <small>${dayDiff(R.from, R.to) < 13 ? "last 14 days, selected period in dark green" : ""}</small></h2>${dayChart(data, R.from, R.to)}</div>
+    <div class="card chart"><h2>Collected per day <small>${dayDiff(R.from, R.to) < 13 ? "last 14 days, selected period in dark green" : ""}</small></h2>${dayChart(payData, R.from, R.to)}</div>
     <div class="split">
       <div class="card"><h2>By payment method</h2>${barList(A.method, peso, k => PAY_LABEL[k] || k)}</div>
       <div class="card"><h2>By category <small>before discounts</small></h2>${barList(A.cat, peso)}</div>
@@ -683,7 +730,11 @@ async function pageVisits(params) {
     .eq("visit_date", d).order("time_in", { ascending: false }).order("created_at", { ascending: false });
   if (error) throw error;
   const live = data.filter(v => !v.voided);
-  const tot = live.reduce((s, v) => s + +v.amount_paid, 0);
+  let tot = 0;
+  if (canManage()) {
+    const { data: pd } = await sb.from("visit_payments").select("amount,visits!inner(voided)").eq("visits.voided", false).eq("pay_date", d);
+    tot = (pd || []).reduce((s, p) => s + +p.amount, 0);
+  }
   $("#view").innerHTML = head("Visits", `${fmtDay(d)} · ${live.length} visit${live.length === 1 ? "" : "s"}${canManage() ? ` · ${peso(tot)} collected` : ""}`, `<a class="btn pri" href="#/visit/new">New visit</a>`) +
     `<div class="toolbar"><div class="seg"><a href="#/visits?d=${addDays(d, -1)}" aria-label="Previous day">‹</a><a href="#/visits" class="${d === today() ? "on" : ""}">Today</a><a href="#/visits?d=${addDays(d, 1)}" aria-label="Next day">›</a></div>
      <input type="date" id="vd" value="${d}"><input class="search" id="vq" placeholder="Filter by client or service"></div>
@@ -729,15 +780,16 @@ function newItem(svcId) {
 }
 
 async function pageVisitForm(id, params) {
-  F = { id: null, client: null, items: [], paidTouched: false, booking: null, v: {} };
+  F = { id: null, client: null, items: [], booking: null, v: {}, pays: [], removed: new Set(), newPays: [{ method: "cash", amount: "", ref: "", touched: false }] };
   if (id) {
-    const { data, error } = await sb.from("visits").select("*, client:clients(*), items:visit_items(*)").eq("id", id).single();
+    const { data, error } = await sb.from("visits").select("*, client:clients(*), items:visit_items(*), payments:visit_payments(*)").eq("id", id).single();
     if (error) throw error;
     if (data.voided) { toast("Voided visits can’t be edited.", true); location.hash = "#/visit/" + id; return; }
-    F.id = id; F.client = data.client; F.v = data; F.paidTouched = true;
+    F.id = id; F.client = data.client; F.v = data;
+    F.pays = (data.payments || []).sort((a, b) => a.paid_at < b.paid_at ? -1 : 1);
     F.items = data.items.sort((a, b) => a.created_at < b.created_at ? -1 : 1).map(i => ({ service_id: i.service_id || "", service_name: i.service_name, category: i.category, duration_min: i.duration_min, is_iv: i.is_iv, unit_price: Number(i.unit_price), qty: i.qty, staff_id: i.staff_id || "" }));
   } else {
-    F.v = { visit_date: today(), time_in: nowTime(), discount_type: "none", payment_method: "cash" };
+    F.v = { visit_date: today(), time_in: nowTime(), discount_type: "none" };
     if (params.get("client")) {
       const { data } = await sb.from("clients").select("*").eq("id", params.get("client")).maybeSingle();
       F.client = data;
@@ -823,11 +875,10 @@ function renderVisitForm() {
           <input type="number" name="discount_value" id="dVal" min="0" step="0.01" style="width:100px" value="${v.discount_value || ""}" placeholder="0"></div></div>
         <div class="sum-row"><span>Less discount</span><span id="sDisc"></span></div>
         <div class="sum-row total"><span>Total</span><span id="sTot"></span></div>
-        <div class="g2" style="margin-top:12px">
-          <div class="f"><label>Paid via</label><select name="payment_method" id="pMethod">${Object.entries(PAY_LABEL).map(([k, l]) => `<option value="${k}"${(v.payment_method || "cash") === k ? " selected" : ""}>${l}</option>`).join("")}</select></div>
-          <div class="f"><label>Amount received</label><input type="number" name="amount_paid" id="pAmt" min="0" step="0.01" value="${F.id ? v.amount_paid : ""}"></div>
-        </div>
-        <div class="f" id="refWrap"><label>Reference no.</label><input name="reference_no" value="${esc(v.reference_no)}" placeholder="GCash / card ref"></div>
+        <div id="payOld"></div>
+        <div id="payNew"></div>
+        <button type="button" class="btn sm" id="splitPay" style="margin-top:8px">+ Split payment</button>
+        <div class="sum-row" style="margin-top:10px"><span>Paid</span><span id="sPaid"></span></div>
         <div class="sum-row"><span id="balLbl">Balance</span><span id="sBal"></span></div>
         <div style="margin:6px 0 14px" id="sStatus"></div>
         <button class="btn gold" style="width:100%;padding:12px" id="saveVisit">${F.id ? "Save changes" : "Save visit"}</button>
@@ -837,10 +888,11 @@ function renderVisitForm() {
 
   renderClientBox();
   renderItems();
+  renderPays();
+  $("#splitPay").onclick = () => { F.newPays.push({ method: "gcash", amount: "", ref: "", touched: false }); renderPays(); recalc(); };
   const form = $("#vform");
   $("#addItem").onclick = () => { F.items.push(newItem("")); renderItems(); $$(".it-svc").pop().focus(); };
   form.addEventListener("input", e => {
-    if (e.target.id === "pAmt") F.paidTouched = true;
     if (e.target.hasAttribute("data-vital")) checkVitals();
     recalc();
   });
@@ -948,6 +1000,43 @@ function totals() {
   else if (type === "promo_amt") disc = Math.min(val, sub);
   return { sub, disc, total: Math.round((sub - disc) * 100) / 100 };
 }
+function renderPays() {
+  const canRm = canManage();
+  $("#payOld").innerHTML = F.pays.length ? `<div class="small muted" style="margin-top:10px">Payments received</div>` + F.pays.map(p => {
+    const rm = F.removed.has(p.id);
+    return `<div class="pay-old${rm ? " rm" : ""}"><span>${fmtDate(p.pay_date, { year: undefined })} · ${esc(PAY_LABEL[p.method])}${p.reference_no ? ` · ${esc(p.reference_no)}` : ""}<br><span class="small muted">by ${esc(p.received_by ? staffName(p.received_by) : "—")}</span></span>
+      <span style="text-align:right"><b>${peso(p.amount)}</b>${canRm ? `<br><button type="button" class="x" data-rm="${p.id}">${rm ? "Undo" : "Remove"}</button>` : ""}</span></div>`;
+  }).join("") : "";
+  $$("[data-rm]").forEach(bt => bt.onclick = () => { const id = bt.dataset.rm; F.removed.has(id) ? F.removed.delete(id) : F.removed.add(id); renderPays(); recalc(); });
+  $("#payNew").innerHTML = F.newPays.map((n, i) => `<div class="pay-new" data-np="${i}">
+      <div class="small" style="font-weight:500;margin-bottom:6px">${F.pays.length || i ? "Add payment" : "Payment"}${F.newPays.length > 1 ? ` ${i + 1}` : ""}</div>
+      <div class="row"><div><label>Method</label><select class="np-m">${PAY_METHODS.map(k => `<option value="${k}"${n.method === k ? " selected" : ""}>${PAY_LABEL[k]}</option>`).join("")}</select></div>
+      <div><label>Amount (₱)</label><input class="np-a" type="number" min="0" step="0.01" value="${n.amount}" placeholder="0.00"></div>
+      ${F.newPays.length > 1 ? `<button type="button" class="del" aria-label="Remove payment">×</button>` : "<span></span>"}</div>
+      <div class="f np-rw" style="margin:8px 0 0"${n.method === "cash" ? " hidden" : ""}><label>Reference no.</label><input class="np-r" value="${esc(n.ref)}" placeholder="GCash / card ref"></div></div>`).join("");
+  $$("[data-np]").forEach(row => {
+    const n = F.newPays[+row.dataset.np];
+    $(".np-m", row).onchange = e => { n.method = e.target.value; $(".np-rw", row).hidden = n.method === "cash"; recalc(); };
+    $(".np-a", row).oninput = e => { n.amount = e.target.value; n.touched = true; };
+    $(".np-r", row).oninput = e => { n.ref = e.target.value; };
+    const d = $(".del", row); if (d) d.onclick = () => { F.newPays.splice(+row.dataset.np, 1); renderPays(); recalc(); };
+  });
+}
+function payState(total) {
+  const oldPaid = F.pays.filter(p => !F.removed.has(p.id)).reduce((s, p) => s + Number(p.amount), 0);
+  let left = Math.max(0, Math.round((total - oldPaid) * 100) / 100);
+  // untouched rows auto-fill with whatever is still unpaid
+  const touchedSum = F.newPays.filter(n => n.touched).reduce((s, n) => s + (num(n.amount) || 0), 0);
+  let auto = Math.max(0, Math.round((left - touchedSum) * 100) / 100);
+  F.newPays.forEach((n, i) => {
+    if (n.touched) return;
+    n.amount = auto > 0 ? auto.toFixed(2) : "";
+    const el = $(`[data-np="${i}"] .np-a`); if (el) el.value = n.amount;
+    auto = 0;
+  });
+  const newSum = F.newPays.reduce((s, n) => s + (num(n.amount) || 0), 0);
+  return { oldPaid, newSum, paid: Math.round((oldPaid + newSum) * 100) / 100 };
+}
 function recalc() {
   if (!$("#sSub")) return;
   const t = totals();
@@ -955,13 +1044,16 @@ function recalc() {
   $("#dVal").hidden = !type.startsWith("promo");
   $("#dVal").placeholder = type === "promo_pct" ? "%" : "₱";
   $("#sSub").textContent = peso(t.sub); $("#sDisc").textContent = "– " + peso(t.disc); $("#sTot").textContent = peso(t.total);
-  if (!F.paidTouched) $("#pAmt").value = t.total.toFixed(2);
-  $("#refWrap").hidden = $("#pMethod").value === "cash";
-  const paid = num($("#pAmt").value) || 0;
-  const diff = Math.round((t.total - paid) * 100) / 100;
-  if (diff < 0) { $("#balLbl").textContent = $("#pMethod").value === "cash" ? "Change to give" : "Over by"; $("#sBal").textContent = peso(-diff); }
-  else { $("#balLbl").textContent = "Balance"; $("#sBal").textContent = peso(diff); }
-  $("#sStatus").innerHTML = paid >= t.total ? STATUS_PILL("paid") : paid > 0 ? STATUS_PILL("partial") : STATUS_PILL("unpaid");
+  const P = payState(t.total);
+  $("#sPaid").textContent = peso(P.paid);
+  const diff = Math.round((t.total - P.paid) * 100) / 100;
+  if (diff < 0) {
+    const cash = F.newPays.some(n => n.method === "cash" && (num(n.amount) || 0) > 0);
+    $("#balLbl").textContent = cash ? "Change to give" : P.oldPaid > t.total ? "Overpaid (remove or refund a payment)" : "Over by (only the balance is recorded)";
+    $("#sBal").textContent = peso(-diff);
+  } else { $("#balLbl").textContent = "Balance"; $("#sBal").textContent = peso(diff); }
+  const st = Math.min(P.paid, t.total);
+  $("#sStatus").innerHTML = st >= t.total ? STATUS_PILL("paid") : st > 0 ? STATUS_PILL("partial") : STATUS_PILL("unpaid");
 }
 function checkVitals() {
   const g = n => { const el = $(`[name=${n}]`); return el ? num(el.value) : null; };
@@ -993,7 +1085,8 @@ async function saveVisit(e) {
     attended_by: g("attended_by"), purpose: g("purpose"), notes: g("notes"),
     temp_pre: num(g("temp_pre")), weight_kg: num(g("weight_kg")),
     discount_type: g("discount_type") || "none", discount_value: num(g("discount_value")) || 0,
-    payment_method: g("payment_method"), reference_no: g("reference_no"), amount_paid: num(g("amount_paid")) || 0,
+    payments: F.pays.filter(x => !F.removed.has(x.id)).map(x => ({ id: x.id }))
+      .concat(F.newPays.filter(n => (num(n.amount) || 0) > 0).map(n => ({ amount: num(n.amount), method: n.method, reference_no: (n.ref || "").trim() || null }))),
     booking_id: F.v.booking_id || null,
     items: items.map(i => ({ service_id: i.service_id || null, service_name: i.service_name, category: i.category, duration_min: i.duration_min, is_iv: !!i.is_iv, unit_price: Number(i.unit_price) || 0, qty: i.qty || 1, staff_id: i.staff_id || null }))
   };
@@ -1014,9 +1107,10 @@ async function saveVisit(e) {
    VISIT DETAIL
    ============================================================ */
 async function pageVisit(id) {
-  const { data: v, error } = await sb.from("visits").select("*, client:clients(*), items:visit_items(*)").eq("id", id).single();
+  const { data: v, error } = await sb.from("visits").select("*, client:clients(*), items:visit_items(*), payments:visit_payments(*)").eq("id", id).single();
   if (error) throw error;
   v.items.sort((a, b) => a.created_at < b.created_at ? -1 : 1);
+  v.payments.sort((a, b) => a.paid_at < b.paid_at ? -1 : 1);
   const c = v.client;
   const bp = (s, d) => s || d ? `${s ?? "–"}/${d ?? "–"}` : "—";
   const val = (x, u) => x == null ? "—" : x + (u || "");
@@ -1025,6 +1119,7 @@ async function pageVisit(id) {
   $("#view").innerHTML = head(`Visit ${esc(v.visit_no)}`, `${fmtDay(v.visit_date)}${v.time_in ? " · " + fmtTime(v.time_in) : ""} · <a href="#/client/${c.id}">${esc(fullName(c))}</a>`,
     (v.voided ? "" : `<a class="btn" href="#/visit/${v.id}/edit">Edit</a>`) +
     `<button class="btn" id="rcpt">Print receipt</button>` +
+    (!v.voided && +v.total > +v.amount_paid ? `<a class="btn gold" href="#/visit/${v.id}/edit">Collect balance</a>` : "") +
     (!v.voided && canManage() ? `<button class="btn danger" id="voidBtn">Void</button>` : "") +
     `<a class="btn pri" href="#/visit/new?client=${c.id}">New visit for ${esc(c.first_name)}</a>`) +
     (v.voided ? `<div class="alert warn"><b>Voided</b> ${esc(fmtStamp(v.voided_at))}. Reason: ${esc(v.void_reason)}. This visit is excluded from sales.</div>` : "") +
@@ -1052,7 +1147,9 @@ async function pageVisit(id) {
           <div class="sum-row"><span>Subtotal</span><span>${peso(v.subtotal)}</span></div>
           <div class="sum-row"><span>${esc(DISC_LABEL[v.discount_type])}${v.discount_type.startsWith("promo") ? ` (${v.discount_type === "promo_pct" ? v.discount_value + "%" : peso(v.discount_value)})` : ""}</span><span>– ${peso(v.discount_amount)}</span></div>
           <div class="sum-row total"><span>Total</span><span>${peso(v.total)}</span></div>
-          <div class="sum-row"><span>Received via ${esc(PAY_LABEL[v.payment_method] || "—")}${v.reference_no ? ` · ref ${esc(v.reference_no)}` : ""}</span><span>${peso(v.amount_paid)}</span></div>
+          ${v.payments.length ? v.payments.map(p => `<div class="pay-old"><span>${fmtDate(p.pay_date, { year: undefined })} · ${esc(PAY_LABEL[p.method])}${p.reference_no ? ` · ref ${esc(p.reference_no)}` : ""}<br><span class="small muted">received by ${esc(p.received_by ? staffName(p.received_by) : "—")}, ${esc(fmtStamp(p.paid_at))}</span></span><b>${peso(p.amount)}</b></div>`).join("")
+            : `<p class="muted small" style="margin:8px 0">No payment recorded yet.</p>`}
+          <div class="sum-row" style="margin-top:6px"><span>Total paid</span><span>${peso(v.amount_paid)}</span></div>
           ${+v.total > +v.amount_paid ? `<div class="sum-row" style="color:var(--bad)"><span>Balance</span><span>${peso(v.total - v.amount_paid)}</span></div>` : ""}
         </div>
         <div class="card"><h2>Notes</h2><dl class="dl"><dt>Main attending</dt><dd>${esc(v.attended_by ? staffName(v.attended_by) : "—")}</dd>
@@ -1067,7 +1164,7 @@ async function pageVisit(id) {
      <tr><td colspan="2">Subtotal</td><td class="num">${peso(v.subtotal)}</td></tr>
      ${+v.discount_amount ? `<tr><td colspan="2">${esc(DISC_LABEL[v.discount_type])}</td><td class="num">– ${peso(v.discount_amount)}</td></tr>` : ""}
      <tr><td colspan="2"><b>Total</b></td><td class="num"><b>${peso(v.total)}</b></td></tr>
-     <tr><td colspan="2">Paid (${esc(PAY_LABEL[v.payment_method] || "")})</td><td class="num">${peso(v.amount_paid)}</td></tr>
+     ${v.payments.map(p => `<tr><td colspan="2">Paid ${fmtDate(p.pay_date)} · ${esc(PAY_LABEL[p.method])}${p.reference_no ? " · " + esc(p.reference_no) : ""}</td><td class="num">${peso(p.amount)}</td></tr>`).join("")}
      ${+v.total > +v.amount_paid ? `<tr><td colspan="2">Balance</td><td class="num">${peso(v.total - v.amount_paid)}</td></tr>` : ""}</table>
      <p style="margin-top:24px">Received by: ____________________</p>
      <p style="font-size:10px;color:#555">This is an acknowledgment receipt, not an official receipt / invoice.</p>`);
@@ -1347,7 +1444,7 @@ async function pageStaff() {
     `<div class="card"><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Login</th><th>PRC license</th><th>Status</th><th></th></tr></thead><tbody>
       ${data.map(s => `<tr${s.active ? "" : ` style="opacity:.55"`}><td><b>${esc(s.full_name)}</b>${s.id === S.me.id ? ` <span class="muted small">(you)</span>` : ""}</td><td>${s.role === "pending" ? `<span class="pill warn">Pending</span>` : ROLE_LABEL[s.role]}</td>
         <td>${esc(s.email || "—")}</td>
-        <td>${s.user_id ? `<span class="pill ok">Can sign in</span>` : `<button class="btn sm" data-login="${s.id}">Give login</button>`}</td>
+        <td>${s.user_id ? `<span class="pill ok">Can sign in</span>${s.username && !s.email ? `<br><span class="small muted">username: ${esc(s.username)}</span>` : ""}` : `<button class="btn sm" data-login="${s.id}">Give login</button>`}</td>
         <td>${esc(s.prc_license || "—")}</td>
         <td>${s.active ? "Active" : "Inactive"}</td><td class="num"><button class="btn sm" data-st="${s.id}">Edit</button></td></tr>`).join("")}
     </tbody></table></div></div>
@@ -1373,40 +1470,57 @@ function genTempPassword() {
   const a = new Uint32Array(10); crypto.getRandomValues(a);
   return "Mw-" + [...a].map(n => chars[n % chars.length]).join("");
 }
-function tempPassResult(st, email, pw) {
+function tempPassResult(st, loginId, pw) {
+  const email = loginId;
   const m = openModal(`<h3>Login created</h3>
     <p>${esc(st.full_name)} can now sign in at <b>${esc(location.origin + location.pathname)}</b></p>
     <dl class="dl" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px">
-      <dt>Email</dt><dd><b>${esc(email)}</b></dd><dt>Temporary password</dt><dd><b style="font-family:monospace;font-size:16px">${esc(pw)}</b></dd></dl>
+      <dt>${email.includes("@") ? "Email" : "Username"}</dt><dd><b>${esc(email)}</b></dd><dt>Temporary password</dt><dd><b style="font-family:monospace;font-size:16px">${esc(pw)}</b></dd></dl>
     <p class="small muted">Give this to them privately. They can change it with <b>Change password</b> after signing in. It won’t be shown again.</p>
     <div class="foot"><button class="btn" id="copyPw">Copy</button><button class="btn pri" data-x>Done</button></div>`);
   $("[data-x]", m).onclick = () => { closeModal(); route(); };
   $("#copyPw").onclick = async () => {
-    try { await navigator.clipboard.writeText(`Movewell staff login\n${location.origin + location.pathname}\nEmail: ${email}\nTemporary password: ${pw}`); toast("Copied"); }
+    try { await navigator.clipboard.writeText(`Movewell staff login\n${location.origin + location.pathname}\n${email.includes("@") ? "Email" : "Username"}: ${email}\nTemporary password: ${pw}`); toast("Copied"); }
     catch (_) { toast("Couldn’t copy. Select the text instead.", true); }
   };
 }
+function suggestUsername(name) {
+  const parts = (name || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]/g, "").split(/\s+/).filter(Boolean);
+  return parts.length ? (parts[0] + (parts.length > 1 ? "." + parts[parts.length - 1][0] : "")).slice(0, 30) : "";
+}
 function loginModal(st) {
-  const m = openModal(`<h3>Give ${esc(st.full_name)} a login</h3><form id="lgnForm">
-    <div class="f"><label>Email *</label><input name="email" type="email" required value="${esc(st.email)}" placeholder="name@email.com"></div>
-    <label class="chk" style="margin-bottom:8px"><input type="radio" name="how" value="invite" checked>Email them an invite link. They set their own password.</label>
-    <label class="chk"><input type="radio" name="how" value="create">Create a temporary password now. You give it to them yourself.</label>
+  const m = openModal(`<h3>Give ${esc(st.full_name)} a login</h3><form id="lgnForm" novalidate>
+    <div class="g2"><div class="f"><label>Email <span class="muted">(optional)</span></label><input name="email" type="email" value="${esc(st.email)}" placeholder="name@email.com"></div>
+    <div class="f"><label>Username</label><input name="username" value="${esc(st.username || suggestUsername(st.full_name))}" autocapitalize="none" spellcheck="false"></div></div>
+    <p class="small muted" style="margin:-4px 0 12px">With an email they sign in using the email and can reset a forgotten password. Without one they sign in with the username, and only you can reset it.</p>
+    <label class="chk" style="margin-bottom:8px"><input type="radio" name="how" value="create" checked>Create a temporary password now. You give it to them yourself.</label>
+    <label class="chk" id="invRow"><input type="radio" name="how" value="invite">Email them an invite link. They set their own password.</label>
     <p class="small muted" style="margin-top:12px">Their role stays <b>${esc(ROLE_LABEL[st.role])}</b>. Change it with Edit.</p>
     <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri" id="lgnBtn">Give login</button></div></form>`);
   $("[data-x]", m).onclick = closeModal;
-  $("#lgnForm").onsubmit = async e => {
+  const f = $("#lgnForm");
+  const sync = () => {
+    const hasEmail = !!f.email.value.trim();
+    const inv = f.querySelector("input[value=invite]");
+    inv.disabled = !hasEmail; $("#invRow").style.opacity = hasEmail ? 1 : .5;
+    if (!hasEmail && inv.checked) f.querySelector("input[value=create]").checked = true;
+  };
+  f.email.oninput = sync; sync();
+  f.onsubmit = async e => {
     e.preventDefault();
-    const fd = new FormData(e.target);
-    const email = (fd.get("email") || "").toString().trim().toLowerCase(), how = fd.get("how");
+    const email = f.email.value.trim().toLowerCase(), username = f.username.value.trim().toLowerCase(), how = f.how.value;
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("That email doesn’t look right.", true);
+    if (!email && !username) return toast("Enter an email or a username.", true);
+    if (!email && !/^[a-z0-9._-]{3,30}$/.test(username)) return toast("Username: 3–30 lowercase letters, numbers, dots, dashes or underscores. No spaces.", true);
     const btn = $("#lgnBtn"); btn.disabled = true; btn.textContent = "Working…";
     try {
       if (how === "invite") {
-        await staffAdmin({ action: "invite", staff_id: st.id, email, redirectTo: location.origin + location.pathname });
+        await staffAdmin({ action: "invite", staff_id: st.id, email, username: /^[a-z0-9._-]{3,30}$/.test(username) ? username : "", redirectTo: location.origin + location.pathname });
         closeModal(); toast(`Invite sent to ${email}`); route();
       } else {
         const pw = genTempPassword();
-        await staffAdmin({ action: "create", staff_id: st.id, email, password: pw });
-        tempPassResult(st, email, pw);
+        await staffAdmin({ action: "create", staff_id: st.id, email, username: !email || /^[a-z0-9._-]{3,30}$/.test(username) ? username : "", password: pw });
+        tempPassResult(st, email || username, pw);
       }
     } catch (err) { btn.disabled = false; btn.textContent = "Give login"; toast(err.message, true); }
   };
@@ -1417,19 +1531,19 @@ function staffModal(s) {
   const m = openModal(`<h3>${isNew ? "Add staff" : "Edit staff"}</h3><form id="stForm">
     <div class="f"><label>Full name *</label><input name="full_name" required value="${esc(s.full_name)}"></div>
     <div class="g2"><div class="f"><label>Role</label><select name="role"${self ? " disabled" : ""}>${["therapist", "doctor", "frontdesk", "admin", "pending"].map(r => `<option value="${r}"${s.role === r ? " selected" : ""}>${ROLE_LABEL[r]}</option>`).join("")}</select>${self ? `<p class="small muted" style="margin:4px 0 0">You can’t change your own role.</p>` : ""}</div>
-    <div class="f"><label>Email ${s.user_id ? "(login)" : "(optional)"}</label><input name="email" type="email" value="${esc(s.email)}"${s.user_id ? " readonly" : ""}></div></div>
+    <div class="f"><label>Email ${s.user_id && s.email ? "(login)" : s.user_id ? "(add to allow password reset)" : "(optional)"}</label><input name="email" type="email" value="${esc(s.email)}"${s.user_id && s.email ? " readonly" : ""}>${s.username ? `<p class="small muted" style="margin:4px 0 0">Username: ${esc(s.username)}</p>` : ""}</div></div>
     <div class="g2"><div class="f"><label>Mobile</label><input name="phone" value="${esc(s.phone)}"></div>
     <div class="f"><label>PRC license no. <span class="muted">(doctors / nurses)</span></label><input name="prc_license" value="${esc(s.prc_license)}"></div></div>
     <label class="chk"><input type="checkbox" name="active"${s.active ? " checked" : ""}${self ? " disabled" : ""}>Active</label>
     <p class="small muted">Front desk: records visits, sees sales and bookings. Therapist / doctor: records visits and client notes. Admin: everything, including prices and staff.</p>
     ${!isNew && s.user_id && !self ? `<fieldset><legend>Login</legend>
-      <div style="display:flex;flex-wrap:wrap;gap:8px"><button type="button" class="btn sm" id="sendReset">Email a password reset link</button>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">${s.email ? `<button type="button" class="btn sm" id="sendReset">Email a password reset link</button>` : ""}
       <button type="button" class="btn sm" id="setTemp">Set a temporary password</button>
       <button type="button" class="btn sm danger" id="rmLogin">Remove login</button></div></fieldset>` : ""}
     <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri">${isNew ? "Add staff" : "Save changes"}</button></div></form>`);
   $("[data-x]", m).onclick = closeModal;
-  if ($("#sendReset")) {
-    $("#sendReset").onclick = async () => {
+  if ($("#setTemp")) {
+    if ($("#sendReset")) $("#sendReset").onclick = async () => {
       const { error } = await sb.auth.resetPasswordForEmail(s.email, { redirectTo: location.origin + location.pathname });
       if (error) return fail(error);
       toast(`Reset link sent to ${s.email}`);
@@ -1437,7 +1551,7 @@ function staffModal(s) {
     $("#setTemp").onclick = async () => {
       if (!(await confirmBox("Set a temporary password?", `${esc(s.full_name)}’s current password will stop working.`, "Set password"))) return;
       const pw = genTempPassword();
-      try { await staffAdmin({ action: "set_password", staff_id: s.id, password: pw }); tempPassResult(s, s.email, pw); }
+      try { await staffAdmin({ action: "set_password", staff_id: s.id, password: pw }); tempPassResult(s, s.email || s.username, pw); }
       catch (err) { toast(err.message, true); }
     };
     $("#rmLogin").onclick = async () => {
@@ -1452,6 +1566,10 @@ function staffModal(s) {
     const row = { full_name: g("full_name"), phone: g("phone"), prc_license: g("prc_license") };
     if (!s.user_id) row.email = g("email") ? g("email").toLowerCase() : null;
     if (!self) { row.role = g("role"); row.active = !!fd.get("active"); }
+    if (s.user_id && !s.email && g("email")) {
+      try { await staffAdmin({ action: "set_email", staff_id: s.id, email: g("email").toLowerCase() }); }
+      catch (err) { return toast(err.message, true); }
+    }
     const { data, error } = isNew ? await sb.from("staff").insert(row).select().single() : await sb.from("staff").update(row).eq("id", s.id).select().single();
     if (error) return fail(/duplicate|unique/i.test(error.message) ? { message: "Another staff member already uses that email." } : error);
     closeModal(); toast(isNew ? "Staff added" : "Staff updated");
