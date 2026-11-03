@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Movewell · Staff</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#12301d">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#12301d; --pine:#1e4a2e; --gold:#b8863a; --gold-soft:#d9b26a; --sage:#cdd8a0;
+  --linen:#f6f5ee; --paper:#fff; --ink:#1d2a21; --muted:#617064; --line:#e2e0d2; --line2:#cfcdbd;
+  --cream:#f1ead6; --ok:#1e6a3a; --ok-bg:#e3f0e3; --warn:#8a5a00; --warn-bg:#fbf0d5; --bad:#a3342a; --bad-bg:#f8e1dd;
+  --serif:"Cormorant Garamond", Georgia, serif; --sans:"Jost","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--sans);font-size:15px;line-height:1.5;color:var(--ink);background:var(--linen);-webkit-font-smoothing:antialiased}
+a{color:var(--pine)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* login */
+.login{min-height:100%;display:grid;place-items:center;background:var(--forest);padding:24px}
+.login-card{background:var(--linen);border-radius:200px 200px 16px 16px;padding:72px 36px 36px;width:min(400px,100%);text-align:center}
+.login-card img{height:70px;margin:0 auto 8px;display:block}
+.login-card h1{font-family:var(--serif);font-weight:500;font-size:32px;margin:0}
+.login-card p.s{color:var(--muted);margin:0 0 24px}
+.login-card form{text-align:left}
+
+/* shell */
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100%;background:linear-gradient(to right,var(--forest) 232px,transparent 232px)}
+.side{background:var(--forest);color:var(--cream);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.side .brand{display:flex;align-items:flex-end;gap:1px;font-family:var(--serif);font-size:28px;line-height:1;padding:22px 22px 4px;text-decoration:none;color:var(--cream)}
+.side .brand img{height:32px;margin:0 1px -1px}
+.side .brand .w{color:var(--gold-soft)}
+.side .loc{font-size:12px;opacity:.6;padding:0 22px 18px}
+.side nav{display:flex;flex-direction:column;padding:6px 10px;gap:2px;flex:1;overflow:auto}
+.side nav a{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--cream);opacity:.78;padding:10px 12px;border-radius:8px}
+.side nav a:hover{opacity:1;background:rgba(255,255,255,.06)}
+.side nav a.on{opacity:1;background:rgba(217,178,106,.16);box-shadow:inset 3px 0 0 var(--gold-soft)}
+.badge{background:var(--gold);color:#fff;font-size:12px;border-radius:999px;padding:1px 8px;min-width:22px;text-align:center}
+.me{padding:16px 22px;border-top:1px solid rgba(241,234,214,.12);font-size:13px}
+.me b{display:block;font-weight:500;font-size:14px}
+.me span{opacity:.65}
+.me button{margin-top:8px;background:none;border:1px solid rgba(241,234,214,.3);color:var(--cream);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:13px}
+.main{min-width:0;padding:28px 32px 64px}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
+.head h1{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.1;margin:0}
+.head .sub{color:var(--muted);margin:4px 0 0}
+.head .act{display:flex;flex-wrap:wrap;gap:8px}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:8px;border:1px solid var(--line2);background:var(--paper);cursor:pointer;font-weight:500;text-decoration:none;color:var(--ink);white-space:nowrap}
+.btn:hover{border-color:#b5b39f}
+.btn.pri{background:var(--forest);border-color:var(--forest);color:var(--cream)}
+.btn.pri:hover{background:var(--pine)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn.danger{color:var(--bad);border-color:#e3b9b2}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:6px}
+.btn:disabled{opacity:.55;cursor:default}
+label{display:block;font-size:13px;font-weight:500;color:#3d4a40;margin-bottom:4px}
+input,select,textarea{width:100%;min-width:0;background:#fff;border:1px solid var(--line2);border-radius:8px;padding:9px 11px;font-size:15px}
+textarea{min-height:72px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:var(--gold)}
+input.warn{background:var(--warn-bg);border-color:#e4c37a}
+.chk{display:flex;align-items:flex-start;gap:8px;font-weight:400;font-size:14px;color:var(--ink);cursor:pointer}
+.chk input{width:auto;margin-top:3px}
+.f{margin-bottom:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.seg{display:inline-flex;max-width:100%;overflow-x:auto;border:1px solid var(--line2);border-radius:8px;background:#fff}
+.seg a,.seg button{white-space:nowrap}
+.seg a,.seg button{padding:8px 14px;text-decoration:none;color:var(--ink);border:0;border-right:1px solid var(--line);background:none;cursor:pointer}
+.seg a:last-child,.seg button:last-child{border-right:0}
+.seg .on{background:var(--forest);color:var(--cream)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:18px}
+.toolbar input[type=date]{width:auto}
+.toolbar .search{flex:1;min-width:200px;max-width:360px}
+
+/* cards & tables */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.card h2{font-size:15px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card h2 small{font-weight:400;color:var(--muted)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover{background:#fafaf5}
+.nw{white-space:nowrap}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl-wrap{overflow-x:auto;margin:0 -20px;padding:0 20px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:36px 12px}
+.pill{display:inline-block;font-size:12px;font-weight:500;padding:2px 9px;border-radius:999px;background:#eceadf;color:#44503f;white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.pill.gold{background:#f3e6c8;color:#7a5418}
+.void td{opacity:.5;text-decoration:line-through}
+.alert{border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px}
+.alert.warn{background:var(--warn-bg);color:#5e4100;border:1px solid #edd394}
+.alert.info{background:#eef2e2;border:1px solid #d7deba}
+.alert b{font-weight:600}
+
+/* dashboard */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.kpi .l{font-size:13px;color:var(--muted)}
+.kpi .v{font-family:var(--serif);font-size:32px;font-weight:600;line-height:1.15;font-variant-numeric:tabular-nums}
+.kpi .h{font-size:12px;color:var(--muted)}
+.kpi.main{background:var(--forest);border-color:var(--forest);color:var(--cream)}
+.kpi.main .l,.kpi.main .h{color:rgba(241,234,214,.72)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bars .row{display:grid;grid-template-columns:minmax(90px,1.2fr) 2fr auto;gap:10px;align-items:center;padding:5px 0;font-size:14px}
+.bars .track{height:8px;background:#efeee6;border-radius:4px;overflow:hidden}
+.bars .fill{height:100%;background:var(--pine);border-radius:4px}
+.chart svg{width:100%;height:auto;display:block}
+
+/* visit form */
+.vf{display:grid;grid-template-columns:1fr 330px;gap:16px;align-items:start}
+.sticky{position:sticky;top:16px}
+.items .it{display:grid;grid-template-columns:2.2fr 110px 64px 1.2fr 36px;gap:8px;align-items:center;margin-bottom:8px}
+.items .it-h{font-size:12px;color:var(--muted);margin-bottom:4px}
+.items .del{border:0;background:none;font-size:20px;color:var(--muted);cursor:pointer;border-radius:6px;height:36px}
+.items .del:hover{background:var(--bad-bg);color:var(--bad)}
+.vitals{display:grid;grid-template-columns:150px 1fr 1fr;gap:8px 12px;align-items:center}
+.vitals .hd{font-size:12px;color:var(--muted);font-weight:500}
+.bp{display:flex;align-items:center;gap:4px}
+.bp span{color:var(--muted)}
+.bp input{padding:9px 4px;text-align:center}
+.sum-row{display:flex;justify-content:space-between;padding:4px 0;font-variant-numeric:tabular-nums}
+.sum-row.total{font-size:20px;font-weight:600;border-top:1px solid var(--line);margin-top:6px;padding-top:10px}
+.picker{position:relative}
+.picker .results{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid var(--line2);border-radius:10px;box-shadow:0 10px 30px rgba(18,48,29,.15);z-index:5;max-height:320px;overflow:auto}
+.picker .results button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;background:none;border-bottom:1px solid var(--line);cursor:pointer}
+.picker .results button:hover,.picker .results button:focus{background:#f5f4ea}
+.chosen{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f3f5ea;border:1px solid #dde3c6;border-radius:10px;padding:12px 14px}
+.chosen b{font-size:16px}
+.flags{display:flex;flex-wrap:wrap;gap:6px}
+.dl{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;font-size:14px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0}
+.cond-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 12px}
+
+/* bookings */
+.bk{display:grid;grid-template-columns:110px 1fr auto;gap:16px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+.bk:last-child{border-bottom:0}
+.bk .when b{display:block;font-family:var(--serif);font-size:22px;line-height:1.1}
+.bk .acts{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+
+/* modal & toast */
+.overlay{position:fixed;inset:0;background:rgba(12,34,20,.45);display:flex;align-items:flex-start;justify-content:center;padding:5vh 16px;z-index:50;overflow:auto}
+.modal{background:var(--linen);border-radius:14px;width:min(560px,100%);padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal.wide{width:min(820px,100%)}
+.modal h3{font-family:var(--serif);font-weight:500;font-size:26px;margin:0 0 14px}
+.modal .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.modal fieldset{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 12px;background:#fff}
+.modal legend{font-size:13px;font-weight:600;padding:0 6px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:var(--forest);color:var(--cream);padding:10px 18px;border-radius:999px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.err{background:var(--bad)}
+.loading{color:var(--muted);padding:40px 0;text-align:center}
+
+#print-area{display:none}
+@media print{
+  body{background:#fff}
+  body>*:not(#print-area){display:none!important}
+  #print-area{display:block;font-size:12px;color:#000}
+  #print-area h1{font-family:var(--serif);font-size:22px;margin:0}
+  #print-area table{margin:8px 0}
+  #print-area th,#print-area td{padding:4px 6px;border-bottom:1px solid #ccc}
+  #print-area .pr-head{display:flex;justify-content:space-between;border-bottom:2px solid #12301d;padding-bottom:8px;margin-bottom:10px}
+  @page{margin:12mm}
+}
+
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.vf{grid-template-columns:1fr}.sticky{position:static}}
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr);background:none}
+  .side{min-width:0}
+  .side{position:sticky;height:auto;z-index:10}
+  .side .brand{padding:12px 16px 2px;font-size:24px}
+  .side .loc{display:none}
+  .side nav{flex-direction:row;overflow-x:auto;padding:6px 8px 8px}
+  .side nav a{white-space:nowrap;padding:7px 11px}
+  .side nav a.on{box-shadow:inset 0 -2px 0 var(--gold-soft)}
+  .me{position:absolute;top:8px;right:12px;border:0;padding:0;text-align:right}
+  .me b,.me span{display:none}
+  .me button{margin:0}
+  .main{padding:18px 14px 64px}
+  .split,.g3,.cond-grid{grid-template-columns:1fr 1fr}
+  .items .it{grid-template-columns:1fr 72px 36px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .items .it .it-svc{grid-column:1 / -1;grid-row:1}
+  .items .it .it-price{grid-column:1;grid-row:2}
+  .items .it .it-qty{grid-column:2;grid-row:2}
+  .items .it .del{grid-column:3;grid-row:2}
+  .items .it .it-staff{grid-column:1 / -1;grid-row:3}
+  .items .it-h{display:none!important}
+  .bk{grid-template-columns:1fr}
+  .bk .acts{justify-content:flex-start}
+}
+@media (max-width:560px){
+  .split,.g2,.g3,.cond-grid,.kpis{grid-template-columns:1fr}
+  .vitals{grid-template-columns:96px 1fr 1fr}
+  .dl{grid-template-columns:110px 1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="loginView" class="login" hidden>
+  <div class="login-card">
+    <img src="assets/icon.png" alt="">
+    <h1>Movewell staff</h1>
+    <p class="s">Sign in to record visits and sales.</p>
+    <div id="cfgWarn" class="alert warn" hidden>Supabase isn’t connected yet. Put the project URL and anon key in <b>config.js</b>.</div>
+    <form id="loginForm">
+      <div class="f"><label for="lgEmail">Email</label><input id="lgEmail" type="email" autocomplete="username" required></div>
+      <div class="f"><label for="lgPass">Password</label><input id="lgPass" type="password" autocomplete="current-password" required></div>
+      <button class="btn pri" style="width:100%;padding:12px" id="lgBtn">Sign in</button>
+      <p id="lgErr" class="small" style="color:var(--bad);min-height:1.5em;margin:10px 0 0"></p>
+    </form>
+    <p class="small muted" style="margin:6px 0 0"><a href="index.html">Back to website</a></p>
+  </div>
+</div>
+
+<div id="pendingView" class="login" hidden>
+  <div class="login-card">
+    <img src="assets/icon.png" alt="">
+    <h1>Almost there</h1>
+    <p class="s" id="pendingMsg">Your account was created but doesn’t have a role yet. Ask the Movewell admin to set your role in Staff, then sign in again.</p>
+    <button class="btn" id="pendingOut">Sign out</button>
+  </div>
+</div>
+
+<div id="appView" class="shell" hidden>
+  <aside class="side">
+    <a class="brand" href="#/">move<img src="assets/icon-light.png" alt=""><span class="w">well</span></a>
+    <div class="loc">Marikina Sports Center</div>
+    <nav id="nav" aria-label="Sections"></nav>
+    <div class="me"><b id="meName"></b><span id="meRole"></span><br><button id="signOut">Sign out</button></div>
+  </aside>
+  <main class="main" id="view"></main>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="print-area"></div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+"use strict";
+/* ============================================================
+   Setup & helpers
+   ============================================================ */
+const cfg = window.MOVEWELL_CONFIG || {};
+const CONFIGURED = !!(cfg.SUPABASE_URL && !/YOUR-PROJECT/.test(cfg.SUPABASE_URL) && window.supabase);
+const sb = CONFIGURED ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
+
+const S = { me: null, staff: [], services: [], settings: {}, pendingCount: 0 };
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const peso = n => "₱" + Number(n || 0).toLocaleString("en-PH", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const peso0 = n => "₱" + Number(n || 0).toLocaleString("en-PH", {maximumFractionDigits: 0});
+const num = v => (v === "" || v == null || isNaN(Number(v))) ? null : Number(v);
+const today = () => new Intl.DateTimeFormat("en-CA", {timeZone: "Asia/Manila"}).format(new Date());
+const nowTime = () => new Intl.DateTimeFormat("en-GB", {timeZone: "Asia/Manila", hour: "2-digit", minute: "2-digit", hourCycle: "h23"}).format(new Date());
+const addDays = (iso, n) => { const d = new Date(iso + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const dayDiff = (a, b) => Math.round((new Date(b + "T00:00:00Z") - new Date(a + "T00:00:00Z")) / 864e5);
+const fmtDate = (iso, opt) => iso ? new Date(iso + "T00:00:00Z").toLocaleDateString("en-PH", Object.assign({timeZone: "UTC", month: "short", day: "numeric", year: "numeric"}, opt || {})) : "";
+const fmtDay = iso => fmtDate(iso, {weekday: "short", year: undefined});
+const fmtTime = t => { if (!t) return ""; const [h, m] = t.split(":").map(Number); return ((h + 11) % 12 + 1) + ":" + String(m).padStart(2, "0") + (h < 12 ? " AM" : " PM"); };
+const fmtStamp = ts => ts ? new Date(ts).toLocaleString("en-PH", {timeZone: "Asia/Manila", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit"}) : "";
+const age = bd => { if (!bd) return null; const t = today(); let a = Number(t.slice(0,4)) - Number(bd.slice(0,4)); if (t.slice(5) < bd.slice(5)) a--; return a; };
+const fullName = c => c ? `${c.first_name || ""} ${c.last_name || ""}`.trim() : "—";
+const staffName = id => (S.staff.find(s => s.id === id) || {}).full_name || "—";
+const role = () => S.me ? S.me.role : null;
+const canManage = () => ["admin", "frontdesk"].includes(role());
+const isAdmin = () => role() === "admin";
+const ROLE_LABEL = {admin: "Admin", frontdesk: "Front desk", therapist: "Therapist", doctor: "Doctor", pending: "Pending"};
+const PAY_LABEL = {cash: "Cash", gcash: "GCash", maya: "Maya", card: "Card", bank: "Bank transfer", other: "Other"};
+const DISC_LABEL = {none: "No discount", senior: "Senior citizen (20%)", pwd: "PWD (20%)", promo_pct: "Promo (%)", promo_amt: "Promo (₱ off)"};
+const CONDITIONS = ["Hypertension","Diabetes","Heart condition","Pregnant","Recently gave birth","Recent surgery or injury","Varicose veins","Blood clotting disorder / blood thinners","Skin condition or open wounds","Kidney disease","G6PD deficiency","Asthma","Epilepsy","Cancer (under treatment)","Osteoporosis"];
+const STATUS_PILL = s => s === "paid" ? `<span class="pill ok">Paid</span>` : s === "partial" ? `<span class="pill warn">Partial</span>` : `<span class="pill bad">Unpaid</span>`;
+const BK_PILL = {pending: `<span class="pill gold">Pending</span>`, confirmed: `<span class="pill ok">Confirmed</span>`, done: `<span class="pill">Done</span>`, cancelled: `<span class="pill bad">Cancelled</span>`, no_show: `<span class="pill bad">No-show</span>`};
+
+function toast(msg, isErr) {
+  const el = document.createElement("div");
+  el.className = "toast" + (isErr ? " err" : ""); el.textContent = msg;
+  $("#toast").appendChild(el); setTimeout(() => el.remove(), isErr ? 6000 : 3000);
+}
+function fail(error, fallback) {
+  console.error(error);
+  const m = error && (error.message || error.error_description) || fallback || "Something went wrong";
+  toast(m.includes("row-level security") ? "You don’t have permission to do that." : m, true);
+}
+function openModal(html, wide) {
+  $("#modalRoot").innerHTML = `<div class="overlay"><div class="modal${wide ? " wide" : ""}" role="dialog" aria-modal="true">${html}</div></div>`;
+  const ov = $("#modalRoot .overlay");
+  ov.addEventListener("mousedown", e => { if (e.target === ov) closeModal(); });
+  const first = $("#modalRoot input:not([type=hidden]):not([type=checkbox]), #modalRoot select, #modalRoot textarea");
+  if (first) setTimeout(() => first.focus(), 30);
+  return $("#modalRoot .modal");
+}
+function closeModal() { $("#modalRoot").innerHTML = ""; }
+document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#modalRoot").innerHTML) closeModal(); });
+function confirmBox(title, text, okLabel, danger) {
+  return new Promise(res => {
+    const m = openModal(`<h3>${esc(title)}</h3><p>${text}</p><div class="foot"><button class="btn" data-x>Go back</button><button class="btn ${danger ? "danger" : "pri"}" data-ok>${esc(okLabel)}</button></div>`);
+    $("[data-x]", m).onclick = () => { closeModal(); res(false); };
+    $("[data-ok]", m).onclick = () => { closeModal(); res(true); };
+  });
+}
+function printHTML(html) {
+  $("#print-area").innerHTML = html;
+  setTimeout(() => window.print(), 50);
+}
+window.addEventListener("afterprint", () => { $("#print-area").innerHTML = ""; });
+function head(title, sub, actions) {
+  return `<div class="head"><div><h1>${title}</h1>${sub ? `<p class="sub">${sub}</p>` : ""}</div><div class="act">${actions || ""}</div></div>`;
+}
+function serviceLabel(s) {
+  return s.name + (s.duration_min ? ` · ${s.duration_min} mins` : "") + (s.price != null ? ` — ${peso0(s.price)}` : "");
+}
+function bizInfo() {
+  const s = S.settings || {};
+  return {name: s.name || "Movewell Wellness Center", address: s.address || "Marikina Sports Center, Marikina City", phones: (s.phones || []).join(" / ")};
+}
+function printHeader(title, right) {
+  const b = bizInfo();
+  return `<div class="pr-head"><div><h1>${esc(b.name)}</h1><div>${esc(b.address)}</div><div>${esc(b.phones)}</div></div><div style="text-align:right"><b>${esc(title)}</b><br>${right || ""}</div></div>`;
+}
+
+/* ============================================================
+   Auth & boot
+   ============================================================ */
+function show(id) { ["loginView", "pendingView", "appView"].forEach(v => $("#" + v).hidden = v !== id); }
+
+async function init() {
+  if (!CONFIGURED) { show("loginView"); $("#cfgWarn").hidden = false; $("#lgBtn").disabled = true; return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await boot(); else show("loginView");
+  sb.auth.onAuthStateChange(ev => { if (ev === "SIGNED_OUT") { S.me = null; show("loginView"); } });
+}
+
+$("#loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = $("#lgBtn"); btn.disabled = true; btn.textContent = "Signing in…"; $("#lgErr").textContent = "";
+  const { error } = await sb.auth.signInWithPassword({ email: $("#lgEmail").value.trim(), password: $("#lgPass").value });
+  btn.disabled = false; btn.textContent = "Sign in";
+  if (error) { $("#lgErr").textContent = /invalid/i.test(error.message) ? "Wrong email or password." : error.message; return; }
+  $("#lgPass").value = "";
+  await boot();
+});
+$("#signOut").onclick = () => sb.auth.signOut();
+$("#pendingOut").onclick = () => sb.auth.signOut();
+
+async function boot() {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) { show("loginView"); return; }
+  const { data: me, error } = await sb.from("staff").select("*").eq("user_id", user.id).maybeSingle();
+  if (error) { fail(error); show("loginView"); return; }
+  if (!me || me.role === "pending" || !me.active) {
+    $("#pendingMsg").textContent = me && !me.active
+      ? "This account has been deactivated. Ask the Movewell admin if you need access again."
+      : "Your account was created but doesn’t have a role yet. Ask the Movewell admin to set your role in Staff, then sign in again.";
+    show("pendingView"); return;
+  }
+  S.me = me;
+  $("#meName").textContent = me.full_name;
+  $("#meRole").textContent = ROLE_LABEL[me.role];
+  await loadRefs();
+  show("appView");
+  if (!window._routed) { window.addEventListener("hashchange", route); window._routed = true; }
+  route();
+}
+
+async function loadRefs() {
+  const [st, sv, se] = await Promise.all([
+    sb.from("staff").select("*").order("full_name"),
+    sb.from("services").select("*").order("category").order("sort_order").order("name"),
+    sb.from("settings").select("value").eq("key", "business").maybeSingle()
+  ]);
+  if (st.error) fail(st.error); else S.staff = st.data;
+  if (sv.error) fail(sv.error); else S.services = sv.data;
+  S.settings = (se.data && se.data.value) || {};
+  await refreshPending();
+}
+async function refreshPending() {
+  const { count } = await sb.from("bookings").select("id", { count: "exact", head: true }).eq("status", "pending");
+  S.pendingCount = count || 0;
+  renderNav();
+}
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+const ALL = ["admin", "frontdesk", "therapist", "doctor"];
+const NAV = [
+  { id: "dashboard", label: "Sales", roles: ["admin", "frontdesk"] },
+  { id: "visits", label: "Visits", roles: ALL },
+  { id: "clients", label: "Clients", roles: ALL },
+  { id: "bookings", label: "Bookings", roles: ALL, badge: () => S.pendingCount },
+  { id: "services", label: "Services & prices", roles: ["admin", "frontdesk"] },
+  { id: "staff", label: "Staff", roles: ["admin"] },
+  { id: "settings", label: "Website info", roles: ["admin"] }
+];
+function renderNav() {
+  const cur = parseHash().parts[0] || homePage();
+  const sect = { visit: "visits", client: "clients" }[cur] || cur;
+  $("#nav").innerHTML = NAV.filter(n => n.roles.includes(role())).map(n => {
+    const b = n.badge ? n.badge() : 0;
+    return `<a href="#/${n.id}" class="${sect === n.id ? "on" : ""}">${n.label}${b ? `<span class="badge">${b}</span>` : ""}</a>`;
+  }).join("");
+}
+const homePage = () => canManage() ? "dashboard" : "visits";
+function parseHash() {
+  const h = location.hash.replace(/^#\/?/, "");
+  const [path, qs] = h.split("?");
+  return { parts: path.split("/").filter(Boolean), params: new URLSearchParams(qs || "") };
+}
+async function route() {
+  if (!S.me) return;
+  const { parts, params } = parseHash();
+  const page = parts[0] || homePage();
+  renderNav();
+  closeModal();
+  const view = $("#view");
+  view.innerHTML = `<div class="loading">Loading…</div>`;
+  window.scrollTo(0, 0);
+  const allowed = NAV.find(n => n.id === page);
+  if (allowed && !allowed.roles.includes(role())) { location.hash = "#/" + homePage(); return; }
+  try {
+    if (page === "dashboard") await pageDashboard(params);
+    else if (page === "visits") await pageVisits(params);
+    else if (page === "visit" && parts[1] === "new") await pageVisitForm(null, params);
+    else if (page === "visit" && parts[2] === "edit") await pageVisitForm(parts[1], params);
+    else if (page === "visit") await pageVisit(parts[1]);
+    else if (page === "clients") await pageClients(params);
+    else if (page === "client") await pageClient(parts[1]);
+    else if (page === "bookings") await pageBookings(params);
+    else if (page === "services") await pageServices();
+    else if (page === "staff") await pageStaff();
+    else if (page === "settings") await pageSettings();
+    else location.hash = "#/" + homePage();
+  } catch (e) {
+    console.error(e);
+    view.innerHTML = `<div class="card empty">This page didn’t load: ${esc(e.message || e)}<br><br><button class="btn" onclick="route()">Try again</button></div>`;
+  }
+}
+
+/* ============================================================
+   SALES DASHBOARD
+   ============================================================ */
+function rangeFor(params) {
+  const t = today(), r = params.get("r") || "today";
+  const dow = (new Date(t + "T00:00:00Z").getUTCDay() + 6) % 7; // Monday = 0
+  if (r === "yesterday") return { r, from: addDays(t, -1), to: addDays(t, -1), label: "Yesterday" };
+  if (r === "week") return { r, from: addDays(t, -dow), to: t, label: "This week" };
+  if (r === "month") return { r, from: t.slice(0, 8) + "01", to: t, label: "This month" };
+  if (r === "lastmonth") {
+    const first = t.slice(0, 8) + "01"; const end = addDays(first, -1);
+    return { r, from: end.slice(0, 8) + "01", to: end, label: "Last month" };
+  }
+  if (r === "custom") {
+    let f = params.get("f") || t, to = params.get("t") || t; if (f > to) [f, to] = [to, f];
+    return { r, from: f, to, label: "Custom" };
+  }
+  return { r: "today", from: t, to: t, label: "Today" };
+}
+function aggregate(rows) {
+  const A = { collected: 0, billed: 0, discount: 0, unpaid: 0, count: rows.length, clients: new Set(), method: {}, cat: {}, staff: {}, svc: {} };
+  rows.forEach(v => {
+    A.collected += +v.amount_paid; A.billed += +v.total; A.discount += +v.discount_amount;
+    A.unpaid += (+v.total - +v.amount_paid); A.clients.add(v.client_id);
+    if (+v.amount_paid > 0) { const m = v.payment_method || "other"; A.method[m] = (A.method[m] || 0) + +v.amount_paid; }
+    (v.items || []).forEach(i => {
+      const c = i.category || "Other"; A.cat[c] = (A.cat[c] || 0) + +i.line_total;
+      const s = i.staff_id || "none"; A.staff[s] = A.staff[s] || { amt: 0, n: 0 }; A.staff[s].amt += +i.line_total; A.staff[s].n += i.qty || 1;
+      A.svc[i.service_name] = A.svc[i.service_name] || { amt: 0, n: 0 }; A.svc[i.service_name].amt += +i.line_total; A.svc[i.service_name].n += i.qty || 1;
+    });
+  });
+  return A;
+}
+function barList(obj, fmt, labelFn) {
+  const entries = Object.entries(obj).sort((a, b) => (b[1].amt ?? b[1]) - (a[1].amt ?? a[1]));
+  if (!entries.length) return `<p class="muted small" style="margin:0">Nothing recorded yet.</p>`;
+  const max = Math.max(...entries.map(e => e[1].amt ?? e[1])) || 1;
+  return `<div class="bars">` + entries.map(([k, v]) => {
+    const amt = v.amt ?? v;
+    return `<div class="row"><span>${esc(labelFn ? labelFn(k) : k)}${v.n ? ` <span class="muted small">× ${v.n}</span>` : ""}</span><div class="track"><div class="fill" style="width:${Math.max(2, amt / max * 100)}%"></div></div><span class="num">${fmt(amt)}</span></div>`;
+  }).join("") + `</div>`;
+}
+function dayChart(rows, from, to) {
+  let start = dayDiff(from, to) < 13 ? addDays(to, -13) : from;
+  if (dayDiff(start, to) > 61) start = addDays(to, -61);
+  const days = []; for (let d = start; d <= to; d = addDays(d, 1)) days.push(d);
+  const byDay = {}; rows.forEach(v => byDay[v.visit_date] = (byDay[v.visit_date] || 0) + +v.amount_paid);
+  const max = Math.max(1, ...days.map(d => byDay[d] || 0));
+  const W = 720, H = 180, pad = 22, bw = (W - 8) / days.length;
+  const bars = days.map((d, i) => {
+    const v = byDay[d] || 0, h = v / max * (H - pad - 18);
+    const inRange = d >= from;
+    const x = 4 + i * bw, y = H - pad - h;
+    const lbl = days.length <= 16 || i % Math.ceil(days.length / 12) === 0 ? `<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle" font-size="10" fill="#617064">${d.slice(8)}</text>` : "";
+    return `<g><title>${fmtDay(d)}: ${peso(v)}</title><rect x="${x + bw * .15}" y="${y}" width="${bw * .7}" height="${Math.max(h, v ? 2 : 0)}" rx="3" fill="${inRange ? "#1e4a2e" : "#c6cfae"}"/>${lbl}</g>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Collected per day"><line x1="0" x2="${W}" y1="${H - pad}" y2="${H - pad}" stroke="#e2e0d2"/>${bars}</svg>`;
+}
+async function pageDashboard(params) {
+  const R = rangeFor(params);
+  let chartFrom = dayDiff(R.from, R.to) < 13 ? addDays(R.to, -13) : R.from;
+  const { data, error } = await sb.from("visits")
+    .select("id,visit_no,visit_date,time_in,client_id,subtotal,discount_amount,total,amount_paid,payment_status,payment_method,client:clients(first_name,last_name),items:visit_items(service_name,category,line_total,staff_id,qty)")
+    .eq("voided", false).gte("visit_date", chartFrom).lte("visit_date", R.to)
+    .order("visit_date", { ascending: false }).order("time_in", { ascending: false });
+  if (error) throw error;
+  await refreshPending();
+  const rows = data.filter(v => v.visit_date >= R.from);
+  const A = aggregate(rows);
+  const presets = [["today", "Today"], ["yesterday", "Yesterday"], ["week", "This week"], ["month", "This month"], ["lastmonth", "Last month"]];
+  const period = R.from === R.to ? fmtDay(R.from) : `${fmtDate(R.from)} – ${fmtDate(R.to)}`;
+  $("#view").innerHTML = head("Sales", period,
+      `<button class="btn" id="csvBtn">Download CSV</button><button class="btn" id="printBtn">Print sales report</button><a class="btn pri" href="#/visit/new">New visit</a>`) +
+    `<div class="toolbar"><div class="seg">${presets.map(([k, l]) => `<a href="#/dashboard?r=${k}" class="${R.r === k ? "on" : ""}">${l}</a>`).join("")}</div>
+      <span class="muted small">or</span><input type="date" id="cf" value="${R.from}"> <span class="muted">to</span> <input type="date" id="ct" value="${R.to}"><button class="btn sm" id="cApply">Show</button></div>` +
+    (S.pendingCount ? `<div class="alert info"><b>${S.pendingCount} booking request${S.pendingCount > 1 ? "s" : ""}</b> waiting for confirmation. <a href="#/bookings">Review bookings</a></div>` : "") +
+    `<div class="kpis">
+      <div class="kpi main"><div class="l">Collected</div><div class="v">${peso(A.collected)}</div><div class="h">Cash, GCash, card and other payments received</div></div>
+      <div class="kpi"><div class="l">Visits</div><div class="v">${A.count}</div><div class="h">${A.clients.size} client${A.clients.size === 1 ? "" : "s"}</div></div>
+      <div class="kpi"><div class="l">Average per visit</div><div class="v">${peso0(A.count ? A.billed / A.count : 0)}</div><div class="h">Billed ${peso(A.billed)}</div></div>
+      <div class="kpi"><div class="l">Unpaid balance</div><div class="v" style="color:${A.unpaid > 0 ? "var(--bad)" : "inherit"}">${peso(A.unpaid)}</div><div class="h">Discounts given ${peso(A.discount)}</div></div>
+    </div>
+    <div class="card chart"><h2>Collected per day <small>${dayDiff(R.from, R.to) < 13 ? "last 14 days, selected period in dark green" : ""}</small></h2>${dayChart(data, R.from, R.to)}</div>
+    <div class="split">
+      <div class="card"><h2>By payment method</h2>${barList(A.method, peso, k => PAY_LABEL[k] || k)}</div>
+      <div class="card"><h2>By category <small>before discounts</small></h2>${barList(A.cat, peso)}</div>
+      <div class="card"><h2>By therapist / staff <small>services handled</small></h2>${barList(A.staff, peso, k => k === "none" ? "Not assigned" : staffName(k))}</div>
+      <div class="card"><h2>Top services</h2>${barList(Object.fromEntries(Object.entries(A.svc).sort((a, b) => b[1].amt - a[1].amt).slice(0, 8)), peso)}</div>
+    </div>
+    <div class="card"><h2>Visits in this period <small>${rows.length > 50 ? "showing latest 50" : ""}</small></h2>${visitTable(rows.slice(0, 50), true)}</div>`;
+
+  $("#cApply").onclick = () => { location.hash = `#/dashboard?r=custom&f=${$("#cf").value}&t=${$("#ct").value}`; };
+  bindVisitRows();
+  $("#printBtn").onclick = () => printSales(R, rows, A, period);
+  $("#csvBtn").onclick = () => downloadCSV(rows, `movewell-sales-${R.from}_to_${R.to}.csv`);
+}
+function printSales(R, rows, A, period) {
+  const list = (obj, lf) => Object.entries(obj).sort((a, b) => (b[1].amt ?? b[1]) - (a[1].amt ?? a[1]))
+    .map(([k, v]) => `<tr><td>${esc(lf ? lf(k) : k)}</td><td class="num">${v.n ? v.n : ""}</td><td class="num">${peso(v.amt ?? v)}</td></tr>`).join("");
+  printHTML(printHeader("Sales report", esc(period) + `<br>Printed ${esc(fmtStamp(new Date()))}`) +
+    `<table><tr><td>Collected</td><td class="num"><b>${peso(A.collected)}</b></td></tr><tr><td>Billed</td><td class="num">${peso(A.billed)}</td></tr>
+     <tr><td>Discounts</td><td class="num">${peso(A.discount)}</td></tr><tr><td>Unpaid balance</td><td class="num">${peso(A.unpaid)}</td></tr>
+     <tr><td>Visits / clients</td><td class="num">${A.count} / ${A.clients.size}</td></tr></table>
+     <h3>By payment method</h3><table>${list(A.method, k => PAY_LABEL[k] || k)}</table>
+     <h3>By staff</h3><table>${list(A.staff, k => k === "none" ? "Not assigned" : staffName(k))}</table>
+     <h3>By service</h3><table>${list(A.svc)}</table>
+     <h3>Visits</h3><table><tr><th>Date</th><th>Visit</th><th>Client</th><th>Services</th><th>Method</th><th class="num">Total</th><th class="num">Paid</th></tr>
+     ${rows.map(v => `<tr><td>${fmtDate(v.visit_date)} ${fmtTime(v.time_in)}</td><td>${esc(v.visit_no)}</td><td>${esc(fullName(v.client))}</td><td>${esc((v.items || []).map(i => i.service_name).join(", "))}</td><td>${esc(PAY_LABEL[v.payment_method] || "")}</td><td class="num">${peso(v.total)}</td><td class="num">${peso(v.amount_paid)}</td></tr>`).join("")}</table>
+     <p style="margin-top:30px">Prepared by: ____________________ &nbsp;&nbsp;&nbsp; Checked by: ____________________</p>`);
+}
+function downloadCSV(rows, filename) {
+  const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = [["Visit no", "Date", "Time", "Client", "Services", "Staff", "Subtotal", "Discount", "Total", "Paid", "Status", "Method"].map(q).join(",")];
+  rows.forEach(v => lines.push([v.visit_no, v.visit_date, v.time_in || "", fullName(v.client), (v.items || []).map(i => i.service_name).join("; "),
+    [...new Set((v.items || []).map(i => i.staff_id).filter(Boolean))].map(staffName).join("; "),
+    v.subtotal, v.discount_amount, v.total, v.amount_paid, v.payment_status, PAY_LABEL[v.payment_method] || ""].map(q).join(",")));
+  const blob = new Blob(["\ufeff" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ============================================================
+   VISITS LIST
+   ============================================================ */
+function visitTable(rows, showDate) {
+  if (!rows.length) return `<div class="empty">No visits recorded.<br><br><a class="btn pri" href="#/visit/new">Record a visit</a></div>`;
+  return `<div class="tbl-wrap"><table><thead><tr>${showDate ? "<th>Date</th>" : ""}<th>Time</th><th>Visit</th><th>Client</th><th>Services</th><th>Staff</th><th class="num">Total</th><th>Payment</th></tr></thead><tbody>` +
+    rows.map(v => `<tr class="click${v.voided ? " void" : ""}" data-visit="${v.id}">${showDate ? `<td class="nw">${fmtDate(v.visit_date, { year: undefined })}</td>` : ""}<td class="nw">${fmtTime(v.time_in) || "—"}</td><td class="muted nw">${esc(v.visit_no)}</td>
+      <td><b>${esc(fullName(v.client))}</b></td><td>${esc((v.items || []).map(i => i.service_name + (i.qty > 1 ? ` ×${i.qty}` : "")).join(", "))}</td>
+      <td class="small">${esc([...new Set((v.items || []).map(i => i.staff_id).filter(Boolean))].map(staffName).join(", ") || "—")}</td>
+      <td class="num">${peso(v.total)}</td><td>${v.voided ? `<span class="pill">Voided</span>` : STATUS_PILL(v.payment_status)} <span class="small muted">${esc(PAY_LABEL[v.payment_method] || "")}</span></td></tr>`).join("") +
+    `</tbody></table></div>`;
+}
+function bindVisitRows() { $$("[data-visit]").forEach(tr => tr.onclick = () => location.hash = "#/visit/" + tr.dataset.visit); }
+
+async function pageVisits(params) {
+  const d = params.get("d") || today();
+  const { data, error } = await sb.from("visits")
+    .select("id,visit_no,visit_date,time_in,client_id,total,amount_paid,payment_status,payment_method,voided,client:clients(first_name,last_name),items:visit_items(service_name,qty,staff_id)")
+    .eq("visit_date", d).order("time_in", { ascending: false }).order("created_at", { ascending: false });
+  if (error) throw error;
+  const live = data.filter(v => !v.voided);
+  const tot = live.reduce((s, v) => s + +v.amount_paid, 0);
+  $("#view").innerHTML = head("Visits", `${fmtDay(d)} · ${live.length} visit${live.length === 1 ? "" : "s"}${canManage() ? ` · ${peso(tot)} collected` : ""}`, `<a class="btn pri" href="#/visit/new">New visit</a>`) +
+    `<div class="toolbar"><div class="seg"><a href="#/visits?d=${addDays(d, -1)}" aria-label="Previous day">‹</a><a href="#/visits" class="${d === today() ? "on" : ""}">Today</a><a href="#/visits?d=${addDays(d, 1)}" aria-label="Next day">›</a></div>
+     <input type="date" id="vd" value="${d}"><input class="search" id="vq" placeholder="Filter by client or service"></div>
+     <div class="card" id="vlist">${visitTable(data)}</div>`;
+  $("#vd").onchange = e => location.hash = "#/visits?d=" + e.target.value;
+  $("#vq").oninput = e => {
+    const q = e.target.value.toLowerCase();
+    $("#vlist").innerHTML = visitTable(data.filter(v => (fullName(v.client) + " " + (v.items || []).map(i => i.service_name).join(" ")).toLowerCase().includes(q)));
+    bindVisitRows();
+  };
+  bindVisitRows();
+}
+
+/* ============================================================
+   VISIT FORM (new / edit)
+   ============================================================ */
+let F = null; // form state
+
+function activeServices() { return S.services.filter(s => s.active && !s.coming_soon); }
+function serviceOptions(selectedId, fallbackName) {
+  const list = activeServices();
+  let html = `<option value="">Choose a service…</option>`;
+  const cats = [...new Set(list.map(s => s.category))];
+  cats.forEach(c => {
+    html += `<optgroup label="${esc(c)}">` + list.filter(s => s.category === c).map(s => `<option value="${s.id}"${s.id === selectedId ? " selected" : ""}>${esc(serviceLabel(s))}</option>`).join("") + `</optgroup>`;
+  });
+  if (selectedId && !list.some(s => s.id === selectedId)) {
+    const s = S.services.find(x => x.id === selectedId);
+    html += `<option value="${selectedId}" selected>${esc((s ? s.name : fallbackName) + " (no longer offered)")}</option>`;
+  } else if (!selectedId && fallbackName) {
+    html += `<option value="__keep" selected>${esc(fallbackName)}</option>`;
+  }
+  return html;
+}
+function staffOptions(selectedId, roles, blank) {
+  const list = S.staff.filter(s => (s.active && (!roles || roles.includes(s.role)) && s.role !== "pending") || s.id === selectedId);
+  return `<option value="">${blank || "—"}</option>` + list.map(s => `<option value="${s.id}"${s.id === selectedId ? " selected" : ""}>${esc(s.full_name)}${s.role !== "therapist" && !(roles && roles.length === 1) ? ` (${ROLE_LABEL[s.role]})` : ""}</option>`).join("");
+}
+function newItem(svcId) {
+  const s = S.services.find(x => x.id === svcId);
+  const defaultStaff = ["therapist", "doctor"].includes(role()) ? S.me.id : "";
+  return { service_id: s ? s.id : "", service_name: s ? s.name + (s.duration_min ? ` (${s.duration_min} mins)` : "") : "", category: s ? s.category : "", duration_min: s ? s.duration_min : null, is_iv: s ? s.is_iv : false, unit_price: s && s.price != null ? Number(s.price) : 0, qty: 1, staff_id: defaultStaff };
+}
+
+async function pageVisitForm(id, params) {
+  F = { id: null, client: null, items: [], paidTouched: false, booking: null, v: {} };
+  if (id) {
+    const { data, error } = await sb.from("visits").select("*, client:clients(*), items:visit_items(*)").eq("id", id).single();
+    if (error) throw error;
+    if (data.voided) { toast("Voided visits can’t be edited.", true); location.hash = "#/visit/" + id; return; }
+    F.id = id; F.client = data.client; F.v = data; F.paidTouched = true;
+    F.items = data.items.sort((a, b) => a.created_at < b.created_at ? -1 : 1).map(i => ({ service_id: i.service_id || "", service_name: i.service_name, category: i.category, duration_min: i.duration_min, is_iv: i.is_iv, unit_price: Number(i.unit_price), qty: i.qty, staff_id: i.staff_id || "" }));
+  } else {
+    F.v = { visit_date: today(), time_in: nowTime(), discount_type: "none", payment_method: "cash" };
+    if (params.get("client")) {
+      const { data } = await sb.from("clients").select("*").eq("id", params.get("client")).maybeSingle();
+      F.client = data;
+    }
+    if (params.get("booking")) {
+      const { data: bk } = await sb.from("bookings").select("*").eq("id", params.get("booking")).maybeSingle();
+      if (bk) {
+        F.booking = bk; F.v.booking_id = bk.id;
+        if (bk.message) F.v.notes = "From booking: " + bk.message;
+        if (bk.service_id && S.services.some(s => s.id === bk.service_id && s.active)) F.items.push(newItem(bk.service_id));
+        if (!F.client && bk.client_id) { const { data } = await sb.from("clients").select("*").eq("id", bk.client_id).maybeSingle(); F.client = data; }
+        if (!F.client) {
+          const digits = (bk.phone || "").replace(/\D/g, "").slice(-10);
+          if (digits.length >= 10) {
+            const { data } = await sb.from("clients").select("*").ilike("phone", `%${digits.slice(-7)}%`).limit(5);
+            const m = (data || []).filter(c => (c.phone || "").replace(/\D/g, "").endsWith(digits));
+            if (m.length === 1) F.client = m[0];
+          }
+        }
+      }
+    }
+    if (!F.items.length) F.items.push(newItem(""));
+  }
+  renderVisitForm();
+}
+
+function renderVisitForm() {
+  const v = F.v;
+  const vit = (name, ph, step) => `<input type="number" inputmode="decimal" ${step ? `step="${step}"` : ""} name="${name}" value="${v[name] ?? ""}" placeholder="${ph || ""}" data-vital>`;
+  $("#view").innerHTML = head(F.id ? `Edit visit ${esc(v.visit_no)}` : "New visit", F.booking ? `From booking request of ${esc(F.booking.full_name)} (${esc(F.booking.phone)})` : "Record what was done, the vitals, and the payment.",
+      `<a class="btn" href="${F.id ? "#/visit/" + F.id : "#/visits"}">Cancel</a>`) +
+  `<form id="vform" class="vf" autocomplete="off">
+    <div>
+      <div class="card"><h2>Client</h2><div id="clientBox"></div></div>
+
+      <div class="card"><h2>Services done <small>price can be adjusted per line</small></h2>
+        <div class="items" id="items"></div>
+        <button type="button" class="btn sm" id="addItem">+ Add another service</button>
+      </div>
+
+      <div class="card"><h2>Vitals <small>leave blank if not taken</small></h2>
+        <div class="vitals">
+          <span></span><span class="hd">Before</span><span class="hd">After</span>
+          <label>Blood pressure</label>
+          <div class="bp">${vit("bp_pre_sys", "120")}<span>/</span>${vit("bp_pre_dia", "80")}</div>
+          <div class="bp">${vit("bp_post_sys", "120")}<span>/</span>${vit("bp_post_dia", "80")}</div>
+          <label>Heart rate (bpm)</label>${vit("hr_pre", "72")}${vit("hr_post", "72")}
+          <label>Oxygen (SpO₂ %)</label>${vit("spo2_pre", "98")}${vit("spo2_post", "98")}
+          <label>Pain score (0–10)</label>${vit("pain_pre", "0–10")}${vit("pain_post", "0–10")}
+          <label>Temperature (°C)</label>${vit("temp_pre", "36.5", "0.1")}<span></span>
+          <label>Resp. rate (/min)</label>${vit("rr_pre", "16")}<span></span>
+          <label>Weight (kg)</label>${vit("weight_kg", "60", "0.1")}<span></span>
+        </div>
+        <p class="small muted" style="margin:10px 0 0" id="vitalHint">Values outside the usual range are highlighted.</p>
+      </div>
+
+      <div class="card" id="ivCard" hidden><h2>IV therapy details</h2>
+        <div class="g2">
+          <div class="f"><label>Doctor who administered</label><select name="iv_doctor_id">${staffOptions(v.iv_doctor_id, ["doctor"], "Choose doctor…")}</select></div>
+          <div class="f"><label>Solution and dose</label><input name="iv_solution" value="${esc(v.iv_solution)}" placeholder="e.g. Vitamin C 25 g in 250 mL PNSS"></div>
+          <div class="f"><label>Lot / batch number</label><input name="iv_lot_no" value="${esc(v.iv_lot_no)}"></div>
+          <div class="f"><label>IV site</label><input name="iv_site" value="${esc(v.iv_site)}" placeholder="e.g. Left forearm"></div>
+        </div>
+        <div class="f"><label>Reaction or remarks</label><input name="iv_reaction" value="${esc(v.iv_reaction)}" placeholder="None noted"></div>
+      </div>
+
+      <div class="card"><h2>Notes</h2>
+        <div class="f"><label>Reason for visit / concern</label><input name="purpose" value="${esc(v.purpose)}" placeholder="e.g. Lower back pain after basketball"></div>
+        <div class="f"><label>Session notes</label><textarea name="notes" placeholder="Focus areas, pressure used, client feedback, advice given…">${esc(v.notes)}</textarea></div>
+      </div>
+    </div>
+
+    <div class="sticky">
+      <div class="card"><h2>Visit</h2>
+        <div class="g2"><div class="f"><label>Date</label><input type="date" name="visit_date" value="${v.visit_date || today()}" required></div>
+        <div class="f"><label>Time in</label><input type="time" name="time_in" value="${(v.time_in || "").slice(0, 5)}"></div></div>
+        <div class="f"><label>Main attending staff</label><select name="attended_by">${staffOptions(v.attended_by || (["therapist", "doctor"].includes(role()) ? S.me.id : ""), null, "Choose…")}</select></div>
+      </div>
+      <div class="card"><h2>Payment</h2>
+        <div class="sum-row"><span>Subtotal</span><span id="sSub"></span></div>
+        <div class="f" style="margin-top:8px"><label>Discount</label>
+          <div style="display:flex;gap:8px"><select name="discount_type" id="dType">${Object.entries(DISC_LABEL).map(([k, l]) => `<option value="${k}"${(v.discount_type || "none") === k ? " selected" : ""}>${l}</option>`).join("")}</select>
+          <input type="number" name="discount_value" id="dVal" min="0" step="0.01" style="width:100px" value="${v.discount_value || ""}" placeholder="0"></div></div>
+        <div class="sum-row"><span>Less discount</span><span id="sDisc"></span></div>
+        <div class="sum-row total"><span>Total</span><span id="sTot"></span></div>
+        <div class="g2" style="margin-top:12px">
+          <div class="f"><label>Paid via</label><select name="payment_method" id="pMethod">${Object.entries(PAY_LABEL).map(([k, l]) => `<option value="${k}"${(v.payment_method || "cash") === k ? " selected" : ""}>${l}</option>`).join("")}</select></div>
+          <div class="f"><label>Amount received</label><input type="number" name="amount_paid" id="pAmt" min="0" step="0.01" value="${F.id ? v.amount_paid : ""}"></div>
+        </div>
+        <div class="f" id="refWrap"><label>Reference no.</label><input name="reference_no" value="${esc(v.reference_no)}" placeholder="GCash / card ref"></div>
+        <div class="sum-row"><span id="balLbl">Balance</span><span id="sBal"></span></div>
+        <div style="margin:6px 0 14px" id="sStatus"></div>
+        <button class="btn gold" style="width:100%;padding:12px" id="saveVisit">${F.id ? "Save changes" : "Save visit"}</button>
+      </div>
+    </div>
+  </form>`;
+
+  renderClientBox();
+  renderItems();
+  const form = $("#vform");
+  $("#addItem").onclick = () => { F.items.push(newItem("")); renderItems(); $$(".it-svc").pop().focus(); };
+  form.addEventListener("input", e => {
+    if (e.target.id === "pAmt") F.paidTouched = true;
+    if (e.target.hasAttribute("data-vital")) checkVitals();
+    recalc();
+  });
+  form.addEventListener("change", recalc);
+  form.addEventListener("submit", saveVisit);
+  checkVitals(); recalc();
+}
+
+function renderClientBox() {
+  const box = $("#clientBox");
+  if (F.client) {
+    const c = F.client, a = age(c.birthdate);
+    const flags = c.conditions || [];
+    const ivNow = F.items.some(i => i.is_iv);
+    const vitC = F.items.some(i => /vitamin c/i.test(i.service_name || ""));
+    const notes = [];
+    if (flags.length) notes.push(`<b>Health flags:</b> ${flags.map(esc).join(", ")}. Review before starting the session.`);
+    if (c.allergies) notes.push(`<b>Allergies:</b> ${esc(c.allergies)}`);
+    if (c.medications) notes.push(`<b>Medications:</b> ${esc(c.medications)}`);
+    if (vitC && flags.includes("G6PD deficiency")) notes.push(`<b>G6PD deficiency is flagged</b> and a vitamin C drip is selected. Confirm with the doctor before proceeding.`);
+    if (ivNow && flags.includes("Kidney disease")) notes.push(`<b>Kidney disease is flagged</b> for an IV treatment. Confirm with the doctor before proceeding.`);
+    box.innerHTML = `<div class="chosen"><div><b>${esc(fullName(c))}</b> <span class="muted small">${esc(c.client_no)}</span><br>
+        <span class="small muted">${[a != null ? a + " yrs" : "", c.sex, c.phone].filter(Boolean).map(esc).join(" · ")}</span></div>
+        <div style="display:flex;gap:6px"><a class="btn sm" href="#/client/${c.id}" target="_blank">Profile</a><button type="button" class="btn sm" id="chgClient">Change</button></div></div>` +
+      (notes.length ? `<div class="alert warn" style="margin:12px 0 0">${notes.join("<br>")}</div>` : "");
+    const chg = $("#chgClient"); if (chg) chg.onclick = () => { F.client = null; renderClientBox(); };
+    return;
+  }
+  const bk = F.booking;
+  box.innerHTML = (bk ? `<div class="alert info">No saved client matched ${esc(bk.phone)}. Search below, or <a href="#" id="fromBk">create a client from this booking</a>.</div>` : "") +
+    `<div class="picker"><input id="cSearch" placeholder="Search name, mobile number or client no." aria-label="Search clients"><div class="results" id="cRes" hidden></div></div>
+     <p class="small" style="margin:8px 0 0">New here? <a href="#" id="newClientLink">Add a new client</a></p>`;
+  const after = c => { F.client = c; renderClientBox(); };
+  $("#newClientLink").onclick = e => { e.preventDefault(); clientModal(null, after); };
+  if (bk) $("#fromBk").onclick = e => {
+    e.preventDefault();
+    const parts = bk.full_name.trim().split(/\s+/);
+    clientModal({ first_name: parts.length > 1 ? parts.slice(0, -1).join(" ") : parts[0], last_name: parts.length > 1 ? parts.slice(-1)[0] : "", phone: bk.phone, email: bk.email }, after);
+  };
+  let tm;
+  $("#cSearch").addEventListener("input", e => {
+    clearTimeout(tm); const q = e.target.value.trim();
+    if (q.length < 2) { $("#cRes").hidden = true; return; }
+    tm = setTimeout(async () => {
+      const res = await searchClients(q, 8);
+      const el = $("#cRes"); if (!el) return;
+      el.hidden = false;
+      el.innerHTML = res.length ? res.map((c, i) => `<button type="button" data-i="${i}"><b>${esc(fullName(c))}</b> <span class="muted small">${esc(c.client_no)} · ${esc(c.phone || "no mobile")}</span></button>`).join("")
+        : `<div class="small muted" style="padding:12px">No client found. <a href="#" id="ncInline">Add “${esc(q)}” as a new client</a></div>`;
+      $$("button[data-i]", el).forEach(b => b.onclick = () => after(res[+b.dataset.i]));
+      const nc = $("#ncInline"); if (nc) nc.onclick = ev => { ev.preventDefault(); const p = q.split(/\s+/); clientModal({ first_name: p.length > 1 ? p.slice(0, -1).join(" ") : q, last_name: p.length > 1 ? p.slice(-1)[0] : "" }, after); };
+    }, 250);
+  });
+}
+
+async function searchClients(q, limit) {
+  const tokens = q.toLowerCase().replace(/[,()%*\\]/g, " ").split(/\s+/).filter(Boolean);
+  if (!tokens.length) return [];
+  const t = tokens[0];
+  const { data, error } = await sb.from("clients").select("*")
+    .or(`first_name.ilike.*${t}*,last_name.ilike.*${t}*,phone.ilike.*${t}*,client_no.ilike.*${t}*`)
+    .order("last_name").limit(limit * 4);
+  if (error) { fail(error); return []; }
+  return data.filter(c => tokens.every(tk => `${c.first_name} ${c.last_name} ${c.phone || ""} ${c.client_no}`.toLowerCase().includes(tk))).slice(0, limit);
+}
+
+function renderItems() {
+  const box = $("#items");
+  box.innerHTML = `<div class="it it-h"><span>Service</span><span>Price (₱)</span><span>Qty</span><span>Done by</span><span></span></div>` +
+    F.items.map((it, i) => `<div class="it" data-i="${i}">
+      <select class="it-svc" aria-label="Service">${serviceOptions(it.service_id, it.service_id ? "" : it.service_name)}</select>
+      <input class="it-price" type="number" min="0" step="0.01" value="${it.unit_price}" aria-label="Price">
+      <input class="it-qty" type="number" min="1" step="1" value="${it.qty}" aria-label="Quantity">
+      <select class="it-staff" aria-label="Done by">${staffOptions(it.staff_id, ["therapist", "doctor", "frontdesk", "admin"], "Done by…")}</select>
+      <button type="button" class="del" aria-label="Remove service" ${F.items.length === 1 ? "disabled" : ""}>×</button></div>`).join("");
+  $$(".it", box).forEach(row => {
+    if (row.classList.contains("it-h")) return;
+    const i = +row.dataset.i;
+    $(".it-svc", row).onchange = e => {
+      if (e.target.value === "__keep") return;
+      const old = F.items[i], n = newItem(e.target.value);
+      n.staff_id = old.staff_id || n.staff_id; n.qty = old.qty;
+      F.items[i] = n; renderItems();
+    };
+    $(".it-price", row).oninput = e => { F.items[i].unit_price = num(e.target.value) || 0; };
+    $(".it-qty", row).oninput = e => { F.items[i].qty = Math.max(1, parseInt(e.target.value) || 1); };
+    $(".it-staff", row).onchange = e => { F.items[i].staff_id = e.target.value; };
+    $(".del", row).onclick = () => { F.items.splice(i, 1); renderItems(); afterItemsChange(); };
+  });
+  afterItemsChange();
+}
+function afterItemsChange() {
+  $("#ivCard").hidden = !F.items.some(i => i.is_iv);
+  if (F.client) renderClientBox();
+  recalc();
+}
+
+function totals() {
+  const sub = F.items.reduce((s, i) => s + (Number(i.unit_price) || 0) * (i.qty || 1), 0);
+  const type = $("#dType") ? $("#dType").value : "none";
+  const val = Math.max(0, num($("#dVal") && $("#dVal").value) || 0);
+  let disc = 0;
+  if (type === "senior" || type === "pwd") disc = Math.round(sub * 20) / 100;
+  else if (type === "promo_pct") disc = Math.round(sub * Math.min(val, 100)) / 100;
+  else if (type === "promo_amt") disc = Math.min(val, sub);
+  return { sub, disc, total: Math.round((sub - disc) * 100) / 100 };
+}
+function recalc() {
+  if (!$("#sSub")) return;
+  const t = totals();
+  const type = $("#dType").value;
+  $("#dVal").hidden = !type.startsWith("promo");
+  $("#dVal").placeholder = type === "promo_pct" ? "%" : "₱";
+  $("#sSub").textContent = peso(t.sub); $("#sDisc").textContent = "– " + peso(t.disc); $("#sTot").textContent = peso(t.total);
+  if (!F.paidTouched) $("#pAmt").value = t.total.toFixed(2);
+  $("#refWrap").hidden = $("#pMethod").value === "cash";
+  const paid = num($("#pAmt").value) || 0;
+  const diff = Math.round((t.total - paid) * 100) / 100;
+  if (diff < 0) { $("#balLbl").textContent = $("#pMethod").value === "cash" ? "Change to give" : "Over by"; $("#sBal").textContent = peso(-diff); }
+  else { $("#balLbl").textContent = "Balance"; $("#sBal").textContent = peso(diff); }
+  $("#sStatus").innerHTML = paid >= t.total ? STATUS_PILL("paid") : paid > 0 ? STATUS_PILL("partial") : STATUS_PILL("unpaid");
+}
+function checkVitals() {
+  const g = n => { const el = $(`[name=${n}]`); return el ? num(el.value) : null; };
+  const rules = {
+    bp_pre_sys: v => v >= 140 || v < 90, bp_post_sys: v => v >= 140 || v < 90,
+    bp_pre_dia: v => v >= 90 || v < 60, bp_post_dia: v => v >= 90 || v < 60,
+    hr_pre: v => v > 100 || v < 50, hr_post: v => v > 100 || v < 50,
+    spo2_pre: v => v < 95, spo2_post: v => v < 95,
+    temp_pre: v => v >= 37.8 || v < 35.5, rr_pre: v => v > 24 || v < 10
+  };
+  let any = false;
+  Object.entries(rules).forEach(([n, bad]) => { const v = g(n); const el = $(`[name=${n}]`); const w = v != null && bad(v); el.classList.toggle("warn", w); any = any || w; });
+  ["pain_pre", "pain_post"].forEach(n => { const v = g(n); $(`[name=${n}]`).classList.toggle("warn", v != null && (v < 0 || v > 10)); });
+  $("#vitalHint").innerHTML = any ? `<span style="color:var(--warn)">Some readings are outside the usual range. Re-check, and inform the doctor or therapist before proceeding.</span>` : "Values outside the usual range are highlighted.";
+}
+
+async function saveVisit(e) {
+  e.preventDefault();
+  if (!F.client) { toast("Choose or add the client first.", true); $("#cSearch") && $("#cSearch").focus(); return; }
+  const items = F.items.filter(i => i.service_id || i.service_name);
+  if (!items.length) { toast("Add at least one service.", true); return; }
+  const pain = ["pain_pre", "pain_post"].map(n => num($(`[name=${n}]`).value)).filter(v => v != null);
+  if (pain.some(v => v < 0 || v > 10)) { toast("Pain score must be from 0 to 10.", true); return; }
+  const fd = new FormData($("#vform"));
+  const g = n => { const v = fd.get(n); return v === null || String(v).trim() === "" ? null : String(v).trim(); };
+  const ints = ["bp_pre_sys", "bp_pre_dia", "hr_pre", "rr_pre", "spo2_pre", "pain_pre", "bp_post_sys", "bp_post_dia", "hr_post", "spo2_post", "pain_post"];
+  const p = {
+    id: F.id, client_id: F.client.id, visit_date: g("visit_date") || today(), time_in: g("time_in"),
+    attended_by: g("attended_by"), purpose: g("purpose"), notes: g("notes"),
+    temp_pre: num(g("temp_pre")), weight_kg: num(g("weight_kg")),
+    discount_type: g("discount_type") || "none", discount_value: num(g("discount_value")) || 0,
+    payment_method: g("payment_method"), reference_no: g("reference_no"), amount_paid: num(g("amount_paid")) || 0,
+    booking_id: F.v.booking_id || null,
+    items: items.map(i => ({ service_id: i.service_id || null, service_name: i.service_name, category: i.category, duration_min: i.duration_min, is_iv: !!i.is_iv, unit_price: Number(i.unit_price) || 0, qty: i.qty || 1, staff_id: i.staff_id || null }))
+  };
+  ints.forEach(n => p[n] = g(n) == null ? null : Math.round(Number(g(n))));
+  const iv = items.some(i => i.is_iv);
+  ["iv_doctor_id", "iv_solution", "iv_lot_no", "iv_site", "iv_reaction"].forEach(n => p[n] = iv ? g(n) : null);
+  if (iv && p.iv_doctor_id) p.items.forEach(i => { if (i.is_iv && !i.staff_id) i.staff_id = p.iv_doctor_id; });
+  const btn = $("#saveVisit"); btn.disabled = true; btn.textContent = "Saving…";
+  const { data, error } = await sb.rpc("save_visit", { p });
+  btn.disabled = false; btn.textContent = F.id ? "Save changes" : "Save visit";
+  if (error) { fail(error); return; }
+  toast(F.id ? "Visit updated" : "Visit saved");
+  if (F.booking) refreshPending();
+  location.hash = "#/visit/" + data;
+}
+
+/* ============================================================
+   VISIT DETAIL
+   ============================================================ */
+async function pageVisit(id) {
+  const { data: v, error } = await sb.from("visits").select("*, client:clients(*), items:visit_items(*)").eq("id", id).single();
+  if (error) throw error;
+  v.items.sort((a, b) => a.created_at < b.created_at ? -1 : 1);
+  const c = v.client;
+  const bp = (s, d) => s || d ? `${s ?? "–"}/${d ?? "–"}` : "—";
+  const val = (x, u) => x == null ? "—" : x + (u || "");
+  const hasVitals = ["bp_pre_sys", "hr_pre", "spo2_pre", "pain_pre", "temp_pre", "rr_pre", "weight_kg", "bp_post_sys", "hr_post", "pain_post"].some(k => v[k] != null);
+  const iv = v.items.some(i => i.is_iv);
+  $("#view").innerHTML = head(`Visit ${esc(v.visit_no)}`, `${fmtDay(v.visit_date)}${v.time_in ? " · " + fmtTime(v.time_in) : ""} · <a href="#/client/${c.id}">${esc(fullName(c))}</a>`,
+    (v.voided ? "" : `<a class="btn" href="#/visit/${v.id}/edit">Edit</a>`) +
+    `<button class="btn" id="rcpt">Print receipt</button>` +
+    (!v.voided && canManage() ? `<button class="btn danger" id="voidBtn">Void</button>` : "") +
+    `<a class="btn pri" href="#/visit/new?client=${c.id}">New visit for ${esc(c.first_name)}</a>`) +
+    (v.voided ? `<div class="alert warn"><b>Voided</b> ${esc(fmtStamp(v.voided_at))}. Reason: ${esc(v.void_reason)}. This visit is excluded from sales.</div>` : "") +
+    ((c.conditions || []).length ? `<div class="alert warn"><b>Health flags:</b> ${c.conditions.map(esc).join(", ")}</div>` : "") +
+    `<div class="split">
+      <div>
+        <div class="card"><h2>Services</h2><table><thead><tr><th>Service</th><th>Done by</th><th class="num">Qty</th><th class="num">Amount</th></tr></thead><tbody>
+          ${v.items.map(i => `<tr><td>${esc(i.service_name)}${i.is_iv ? ` <span class="pill gold">IV</span>` : ""}</td><td>${esc(i.staff_id ? staffName(i.staff_id) : "—")}</td><td class="num">${i.qty}</td><td class="num">${peso(i.line_total)}</td></tr>`).join("")}
+        </tbody></table></div>
+        <div class="card"><h2>Vitals</h2>${hasVitals ? `<table><thead><tr><th></th><th>Before</th><th>After</th></tr></thead><tbody>
+          <tr><td>Blood pressure</td><td>${bp(v.bp_pre_sys, v.bp_pre_dia)}</td><td>${bp(v.bp_post_sys, v.bp_post_dia)}</td></tr>
+          <tr><td>Heart rate</td><td>${val(v.hr_pre, " bpm")}</td><td>${val(v.hr_post, " bpm")}</td></tr>
+          <tr><td>SpO₂</td><td>${val(v.spo2_pre, "%")}</td><td>${val(v.spo2_post, "%")}</td></tr>
+          <tr><td>Pain score</td><td>${val(v.pain_pre, "/10")}</td><td>${val(v.pain_post, "/10")}</td></tr>
+          <tr><td>Temperature</td><td>${val(v.temp_pre, " °C")}</td><td></td></tr>
+          <tr><td>Resp. rate</td><td>${val(v.rr_pre, "/min")}</td><td></td></tr>
+          <tr><td>Weight</td><td>${val(v.weight_kg, " kg")}</td><td></td></tr></tbody></table>` : `<p class="muted" style="margin:0">No vitals recorded.</p>`}</div>
+        ${iv ? `<div class="card"><h2>IV therapy</h2><dl class="dl">
+          <dt>Doctor</dt><dd>${esc(v.iv_doctor_id ? staffName(v.iv_doctor_id) : "—")}${(S.staff.find(s => s.id === v.iv_doctor_id) || {}).prc_license ? ` · PRC ${esc(S.staff.find(s => s.id === v.iv_doctor_id).prc_license)}` : ""}</dd>
+          <dt>Solution / dose</dt><dd>${esc(v.iv_solution || "—")}</dd><dt>Lot no.</dt><dd>${esc(v.iv_lot_no || "—")}</dd>
+          <dt>IV site</dt><dd>${esc(v.iv_site || "—")}</dd><dt>Reaction</dt><dd>${esc(v.iv_reaction || "—")}</dd></dl></div>` : ""}
+      </div>
+      <div>
+        <div class="card"><h2>Payment ${v.voided ? `<span class="pill">Voided</span>` : STATUS_PILL(v.payment_status)}</h2>
+          <div class="sum-row"><span>Subtotal</span><span>${peso(v.subtotal)}</span></div>
+          <div class="sum-row"><span>${esc(DISC_LABEL[v.discount_type])}${v.discount_type.startsWith("promo") ? ` (${v.discount_type === "promo_pct" ? v.discount_value + "%" : peso(v.discount_value)})` : ""}</span><span>– ${peso(v.discount_amount)}</span></div>
+          <div class="sum-row total"><span>Total</span><span>${peso(v.total)}</span></div>
+          <div class="sum-row"><span>Received via ${esc(PAY_LABEL[v.payment_method] || "—")}${v.reference_no ? ` · ref ${esc(v.reference_no)}` : ""}</span><span>${peso(v.amount_paid)}</span></div>
+          ${+v.total > +v.amount_paid ? `<div class="sum-row" style="color:var(--bad)"><span>Balance</span><span>${peso(v.total - v.amount_paid)}</span></div>` : ""}
+        </div>
+        <div class="card"><h2>Notes</h2><dl class="dl"><dt>Main attending</dt><dd>${esc(v.attended_by ? staffName(v.attended_by) : "—")}</dd>
+          <dt>Reason for visit</dt><dd>${esc(v.purpose || "—")}</dd><dt>Session notes</dt><dd style="white-space:pre-wrap">${esc(v.notes || "—")}</dd></dl></div>
+        <p class="small muted">Recorded by ${esc(v.created_by ? staffName(v.created_by) : "—")} on ${esc(fmtStamp(v.created_at))}${v.updated_at !== v.created_at ? ` · last changed ${esc(fmtStamp(v.updated_at))}` : ""}</p>
+      </div>
+    </div>`;
+
+  $("#rcpt").onclick = () => printHTML(printHeader("Acknowledgment receipt", `${esc(v.visit_no)}<br>${fmtDate(v.visit_date)} ${fmtTime(v.time_in)}`) +
+    `<p>Received from: <b>${esc(fullName(c))}</b> (${esc(c.client_no)})</p>
+     <table><tr><th>Service</th><th class="num">Qty</th><th class="num">Amount</th></tr>${v.items.map(i => `<tr><td>${esc(i.service_name)}</td><td class="num">${i.qty}</td><td class="num">${peso(i.line_total)}</td></tr>`).join("")}
+     <tr><td colspan="2">Subtotal</td><td class="num">${peso(v.subtotal)}</td></tr>
+     ${+v.discount_amount ? `<tr><td colspan="2">${esc(DISC_LABEL[v.discount_type])}</td><td class="num">– ${peso(v.discount_amount)}</td></tr>` : ""}
+     <tr><td colspan="2"><b>Total</b></td><td class="num"><b>${peso(v.total)}</b></td></tr>
+     <tr><td colspan="2">Paid (${esc(PAY_LABEL[v.payment_method] || "")})</td><td class="num">${peso(v.amount_paid)}</td></tr>
+     ${+v.total > +v.amount_paid ? `<tr><td colspan="2">Balance</td><td class="num">${peso(v.total - v.amount_paid)}</td></tr>` : ""}</table>
+     <p style="margin-top:24px">Received by: ____________________</p>
+     <p style="font-size:10px;color:#555">This is an acknowledgment receipt, not an official receipt / invoice.</p>`);
+  const vb = $("#voidBtn");
+  if (vb) vb.onclick = () => {
+    const m = openModal(`<h3>Void this visit?</h3><p>Voided visits stay in the record but are removed from sales. Use this for duplicates or mistakes.</p>
+      <div class="f"><label for="vr">Reason</label><input id="vr" placeholder="e.g. Duplicate entry"></div>
+      <div class="foot"><button class="btn" data-x>Go back</button><button class="btn danger" data-ok>Void visit</button></div>`);
+    $("[data-x]", m).onclick = closeModal;
+    $("[data-ok]", m).onclick = async () => {
+      const r = $("#vr").value.trim(); if (!r) { $("#vr").focus(); return; }
+      const { error } = await sb.rpc("void_visit", { p_id: v.id, p_reason: r });
+      if (error) return fail(error);
+      closeModal(); toast("Visit voided"); route();
+    };
+  };
+}
+
+/* ============================================================
+   CLIENTS
+   ============================================================ */
+async function pageClients(params) {
+  const q = params.get("q") || "";
+  let rows;
+  if (q) rows = await searchClients(q, 100);
+  else {
+    const { data, error } = await sb.from("clients").select("*").order("created_at", { ascending: false }).limit(50);
+    if (error) throw error; rows = data;
+  }
+  $("#view").innerHTML = head("Clients", q ? `Results for “${esc(q)}”` : "Recently added", `<button class="btn pri" id="newClient">Add client</button>`) +
+    `<form class="toolbar" id="cqForm"><input class="search" id="cq" value="${esc(q)}" placeholder="Search name, mobile number or client no."><button class="btn">Search</button>${q ? `<a class="btn" href="#/clients">Clear</a>` : ""}</form>
+     <div class="card">${rows.length ? `<div class="tbl-wrap"><table><thead><tr><th>Client no.</th><th>Name</th><th>Age / sex</th><th>Mobile</th><th>Health flags</th><th>Added</th></tr></thead><tbody>
+      ${rows.map(c => `<tr class="click" data-client="${c.id}"><td class="muted">${esc(c.client_no)}</td><td><b>${esc(c.last_name)}, ${esc(c.first_name)}</b></td>
+        <td>${[age(c.birthdate), c.sex].filter(x => x != null && x !== "").map(esc).join(" / ") || "—"}</td><td>${esc(c.phone || "—")}</td>
+        <td>${(c.conditions || []).length ? `<span class="pill warn">${c.conditions.length} flag${c.conditions.length > 1 ? "s" : ""}</span>` : `<span class="muted small">None</span>`}</td>
+        <td class="small muted">${esc(new Date(c.created_at).toLocaleDateString("en-PH", {timeZone: "Asia/Manila", month: "short", day: "numeric", year: "numeric"}))}</td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty">${q ? "No client matches that search." : "No clients yet."}<br><br><button class="btn pri" id="newClient2">Add the first client</button></div>`}</div>`;
+  $("#cqForm").onsubmit = e => { e.preventDefault(); const v = $("#cq").value.trim(); location.hash = v ? "#/clients?q=" + encodeURIComponent(v) : "#/clients"; };
+  $$("[data-client]").forEach(tr => tr.onclick = () => location.hash = "#/client/" + tr.dataset.client);
+  const go = () => clientModal(null, c => location.hash = "#/client/" + c.id);
+  $("#newClient").onclick = go; const n2 = $("#newClient2"); if (n2) n2.onclick = go;
+}
+
+function clientModal(c, onSaved) {
+  const isNew = !c || !c.id; c = c || {};
+  const conds = c.conditions || [];
+  const m = openModal(`<h3>${isNew ? "Add client" : "Edit client"}</h3>
+   <form id="cForm" autocomplete="off">
+    <fieldset><legend>Personal details</legend>
+      <div class="g2"><div class="f"><label>First name *</label><input name="first_name" required value="${esc(c.first_name)}"></div>
+      <div class="f"><label>Last name *</label><input name="last_name" required value="${esc(c.last_name)}"></div></div>
+      <div class="g3"><div class="f"><label>Sex</label><select name="sex"><option value=""></option>${["Female", "Male"].map(s => `<option${c.sex === s ? " selected" : ""}>${s}</option>`).join("")}</select></div>
+      <div class="f"><label>Birthdate</label><input type="date" name="birthdate" value="${c.birthdate || ""}" max="${today()}"></div>
+      <div class="f"><label>Mobile</label><input name="phone" type="tel" value="${esc(c.phone)}" placeholder="09XX XXX XXXX"></div></div>
+      <div class="g2"><div class="f"><label>Email</label><input name="email" type="email" value="${esc(c.email)}"></div>
+      <div class="f"><label>Address</label><input name="address" value="${esc(c.address)}"></div></div>
+      <div class="g2"><div class="f"><label>Emergency contact</label><input name="emergency_name" value="${esc(c.emergency_name)}"></div>
+      <div class="f"><label>Emergency contact number</label><input name="emergency_phone" type="tel" value="${esc(c.emergency_phone)}"></div></div>
+    </fieldset>
+    <fieldset><legend>Health screening</legend>
+      <p class="small muted" style="margin:0 0 8px">Check anything the client reports. These show as warnings when recording a visit.</p>
+      <div class="cond-grid">${CONDITIONS.map(x => `<label class="chk"><input type="checkbox" name="cond" value="${esc(x)}"${conds.includes(x) ? " checked" : ""}>${esc(x)}</label>`).join("")}</div>
+      <div class="g2" style="margin-top:10px"><div class="f"><label>Allergies</label><input name="allergies" value="${esc(c.allergies)}" placeholder="Medicines, oils, latex…"></div>
+      <div class="f"><label>Current medications</label><input name="medications" value="${esc(c.medications)}"></div></div>
+      <div class="f"><label>Other health notes</label><textarea name="health_notes">${esc(c.health_notes)}</textarea></div>
+    </fieldset>
+    <div class="f"><label>Preferences and other notes</label><input name="notes" value="${esc(c.notes)}" placeholder="e.g. Prefers firm pressure, female therapist"></div>
+    <label class="chk" style="margin-top:8px"><input type="checkbox" name="consent_given"${c.consent_given ? " checked" : ""}>Client agrees to Movewell collecting and using their personal and health information for their care and records, in line with the Data Privacy Act of 2012.</label>
+    <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri" id="cSave">${isNew ? "Add client" : "Save changes"}</button></div>
+   </form>`, true);
+  $("[data-x]", m).onclick = closeModal;
+  $("#cForm").onsubmit = async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const g = n => { const v = (fd.get(n) || "").toString().trim(); return v || null; };
+    if (!g("first_name") || !g("last_name")) { toast("First and last name are required.", true); return; }
+    const consent = !!fd.get("consent_given");
+    if (!consent) { toast("The client’s consent is needed before saving their health information.", true); return; }
+    const row = { first_name: g("first_name"), last_name: g("last_name"), sex: g("sex"), birthdate: g("birthdate"), phone: g("phone"), email: g("email"), address: g("address"),
+      emergency_name: g("emergency_name"), emergency_phone: g("emergency_phone"), conditions: fd.getAll("cond"), allergies: g("allergies"), medications: g("medications"),
+      health_notes: g("health_notes"), notes: g("notes"), consent_given: consent };
+    if (!c.consent_given) row.consent_at = new Date().toISOString();
+    $("#cSave").disabled = true;
+    const q = isNew ? sb.from("clients").insert(row).select().single() : sb.from("clients").update(row).eq("id", c.id).select().single();
+    const { data, error } = await q;
+    $("#cSave").disabled = false;
+    if (error) return fail(error);
+    closeModal(); toast(isNew ? "Client added" : "Client updated");
+    onSaved && onSaved(data);
+  };
+}
+
+async function pageClient(id) {
+  const [cr, vr] = await Promise.all([
+    sb.from("clients").select("*").eq("id", id).single(),
+    sb.from("visits").select("id,visit_no,visit_date,time_in,total,amount_paid,payment_status,payment_method,voided,attended_by,bp_pre_sys,bp_pre_dia,bp_post_sys,bp_post_dia,hr_pre,hr_post,spo2_pre,temp_pre,weight_kg,pain_pre,pain_post,purpose,notes,items:visit_items(service_name,qty,staff_id)")
+      .eq("client_id", id).order("visit_date", { ascending: false }).order("time_in", { ascending: false })
+  ]);
+  if (cr.error) throw cr.error; if (vr.error) throw vr.error;
+  const c = cr.data, visits = vr.data, live = visits.filter(v => !v.voided);
+  const spent = live.reduce((s, v) => s + +v.amount_paid, 0), bal = live.reduce((s, v) => s + (+v.total - +v.amount_paid), 0);
+  const a = age(c.birthdate);
+  const withVitals = live.filter(v => v.bp_pre_sys != null || v.hr_pre != null || v.pain_pre != null || v.weight_kg != null);
+  const bp = (s, d) => s || d ? `${s ?? "–"}/${d ?? "–"}` : "—";
+  $("#view").innerHTML = head(esc(fullName(c)), `${esc(c.client_no)}${a != null ? ` · ${a} yrs` : ""}${c.sex ? " · " + esc(c.sex) : ""}`,
+    `<button class="btn" id="cPrint">Print record</button><button class="btn" id="cEdit">Edit</button><a class="btn pri" href="#/visit/new?client=${c.id}">New visit</a>`) +
+    `<div class="kpis"><div class="kpi"><div class="l">Visits</div><div class="v">${live.length}</div></div>
+      <div class="kpi"><div class="l">Total paid</div><div class="v">${peso0(spent)}</div></div>
+      <div class="kpi"><div class="l">Last visit</div><div class="v" style="font-size:24px">${live[0] ? fmtDate(live[0].visit_date) : "—"}</div></div>
+      <div class="kpi"><div class="l">Balance</div><div class="v" style="color:${bal > 0 ? "var(--bad)" : "inherit"}">${peso0(bal)}</div></div></div>
+    <div class="split">
+      <div class="card"><h2>Details</h2><dl class="dl">
+        <dt>Mobile</dt><dd>${c.phone ? `<a href="tel:${esc(c.phone.replace(/[^+\d]/g, ""))}">${esc(c.phone)}</a>` : "—"}</dd><dt>Email</dt><dd>${esc(c.email || "—")}</dd>
+        <dt>Birthdate</dt><dd>${c.birthdate ? fmtDate(c.birthdate) : "—"}</dd><dt>Address</dt><dd>${esc(c.address || "—")}</dd>
+        <dt>Emergency contact</dt><dd>${esc([c.emergency_name, c.emergency_phone].filter(Boolean).join(" · ") || "—")}</dd>
+        <dt>Preferences</dt><dd>${esc(c.notes || "—")}</dd>
+        <dt>Consent</dt><dd>${c.consent_given ? `Given ${esc(fmtStamp(c.consent_at))}` : `<span class="pill bad">Not recorded</span>`}</dd></dl></div>
+      <div class="card"><h2>Health</h2>
+        ${(c.conditions || []).length ? `<div class="flags" style="margin-bottom:10px">${c.conditions.map(x => `<span class="pill warn">${esc(x)}</span>`).join("")}</div>` : `<p class="muted" style="margin:0 0 10px">No conditions reported.</p>`}
+        <dl class="dl"><dt>Allergies</dt><dd>${esc(c.allergies || "None reported")}</dd><dt>Medications</dt><dd>${esc(c.medications || "None reported")}</dd>
+        <dt>Other notes</dt><dd style="white-space:pre-wrap">${esc(c.health_notes || "—")}</dd></dl></div>
+    </div>
+    ${withVitals.length ? `<div class="card"><h2>Vitals history</h2><div class="tbl-wrap"><table><thead><tr><th>Date</th><th>BP before</th><th>BP after</th><th>HR</th><th>SpO₂</th><th>Temp</th><th>Weight</th><th>Pain</th></tr></thead><tbody>
+      ${withVitals.map(v => `<tr><td>${fmtDate(v.visit_date)}</td><td>${bp(v.bp_pre_sys, v.bp_pre_dia)}</td><td>${bp(v.bp_post_sys, v.bp_post_dia)}</td><td>${v.hr_pre ?? "—"}${v.hr_post != null ? " → " + v.hr_post : ""}</td><td>${v.spo2_pre ?? "—"}</td><td>${v.temp_pre ?? "—"}</td><td>${v.weight_kg ?? "—"}</td><td>${v.pain_pre ?? "—"}${v.pain_post != null ? " → " + v.pain_post : ""}</td></tr>`).join("")}
+    </tbody></table></div></div>` : ""}
+    <div class="card"><h2>Visit history</h2>${visits.length ? `<div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Visit</th><th>Services</th><th>Staff</th><th class="num">Total</th><th>Payment</th></tr></thead><tbody>
+      ${visits.map(v => `<tr class="click${v.voided ? " void" : ""}" data-visit="${v.id}"><td class="nw">${fmtDate(v.visit_date)}</td><td class="muted nw">${esc(v.visit_no)}</td><td>${esc(v.items.map(i => i.service_name).join(", "))}</td>
+        <td class="small">${esc([...new Set(v.items.map(i => i.staff_id).filter(Boolean))].map(staffName).join(", ") || "—")}</td><td class="num">${peso(v.total)}</td><td>${v.voided ? `<span class="pill">Voided</span>` : STATUS_PILL(v.payment_status)}</td></tr>`).join("")}
+      </tbody></table></div>` : `<div class="empty">No visits yet. <a href="#/visit/new?client=${c.id}">Record the first visit</a></div>`}</div>`;
+  bindVisitRows();
+  $("#cEdit").onclick = () => clientModal(c, () => route());
+  $("#cPrint").onclick = () => printHTML(printHeader("Client record", `${esc(c.client_no)}<br>Printed ${esc(fmtStamp(new Date()))}`) +
+    `<p><b>${esc(fullName(c))}</b> · ${a != null ? a + " yrs · " : ""}${esc(c.sex || "")} · ${esc(c.phone || "")}<br>Emergency: ${esc([c.emergency_name, c.emergency_phone].filter(Boolean).join(" · ") || "—")}</p>
+     <p><b>Health flags:</b> ${esc((c.conditions || []).join(", ") || "None")}<br><b>Allergies:</b> ${esc(c.allergies || "None")} · <b>Medications:</b> ${esc(c.medications || "None")}</p>
+     <table><tr><th>Date</th><th>Services</th><th>BP before/after</th><th>HR</th><th>Pain</th><th>Notes</th><th class="num">Total</th></tr>
+     ${live.map(v => `<tr><td>${fmtDate(v.visit_date)}</td><td>${esc(v.items.map(i => i.service_name).join(", "))}</td><td>${bp(v.bp_pre_sys, v.bp_pre_dia)} / ${bp(v.bp_post_sys, v.bp_post_dia)}</td><td>${v.hr_pre ?? ""}</td><td>${v.pain_pre ?? ""}${v.pain_post != null ? "→" + v.pain_post : ""}</td><td>${esc([v.purpose, v.notes].filter(Boolean).join(" — "))}</td><td class="num">${peso(v.total)}</td></tr>`).join("")}</table>
+     <p style="font-size:10px;color:#555">Confidential: contains personal and health information protected under the Data Privacy Act of 2012.</p>`);
+}
+
+/* ============================================================
+   BOOKINGS
+   ============================================================ */
+async function pageBookings(params) {
+  const tab = params.get("t") || "pending", t = today();
+  let q = sb.from("bookings").select("*");
+  if (tab === "pending") q = q.eq("status", "pending").order("preferred_date").order("preferred_time");
+  else if (tab === "today") q = q.eq("preferred_date", t).in("status", ["pending", "confirmed"]).order("preferred_time");
+  else if (tab === "upcoming") q = q.eq("status", "confirmed").gte("preferred_date", t).order("preferred_date").order("preferred_time");
+  else q = q.order("created_at", { ascending: false }).limit(100);
+  const { data, error } = await q;
+  if (error) throw error;
+  await refreshPending();
+  const tabs = [["pending", `Pending${S.pendingCount ? ` (${S.pendingCount})` : ""}`], ["today", "Today"], ["upcoming", "Confirmed upcoming"], ["all", "All recent"]];
+  $("#view").innerHTML = head("Bookings", "Requests from the website, Messenger, calls and walk-ins.", `<button class="btn pri" id="addBk">Add booking</button>`) +
+    `<div class="toolbar"><div class="seg">${tabs.map(([k, l]) => `<a href="#/bookings?t=${k}" class="${tab === k ? "on" : ""}">${l}</a>`).join("")}</div></div>
+     <div class="card">${data.length ? data.map(b => `<div class="bk" data-bk="${b.id}">
+        <div class="when"><b>${fmtDate(b.preferred_date, { year: undefined })}</b><span class="muted">${b.preferred_time ? fmtTime(b.preferred_time) : "Any time"}</span><br><span class="small muted">${fmtDay(b.preferred_date).split(",")[0]}</span></div>
+        <div><b style="font-size:16px">${esc(b.full_name)}</b> ${BK_PILL[b.status]} <span class="pill">${esc(b.source)}</span><br>
+          <a href="tel:${esc(b.phone.replace(/[^+\d]/g, ""))}">${esc(b.phone)}</a> · ${esc(b.service_name || "Service not chosen")}
+          ${b.message ? `<div class="small" style="margin-top:4px;white-space:pre-wrap">“${esc(b.message)}”</div>` : ""}
+          ${b.staff_notes ? `<div class="small muted" style="margin-top:4px">Staff note: ${esc(b.staff_notes)}</div>` : ""}
+          <div class="small muted" style="margin-top:4px">Requested ${esc(fmtStamp(b.created_at))}${b.handled_by ? ` · handled by ${esc(staffName(b.handled_by))}` : ""}</div></div>
+        <div class="acts">
+          ${b.status === "pending" ? `<button class="btn sm pri" data-act="confirmed">Confirm</button>` : ""}
+          ${["pending", "confirmed"].includes(b.status) ? `<a class="btn sm gold" href="#/visit/new?booking=${b.id}">Start visit</a>` : ""}
+          ${b.status === "confirmed" ? `<button class="btn sm" data-act="no_show">No-show</button>` : ""}
+          ${["pending", "confirmed"].includes(b.status) ? `<button class="btn sm danger" data-act="cancelled">Cancel</button>` : ""}
+          ${b.visit_id ? `<a class="btn sm" href="#/visit/${b.visit_id}">View visit</a>` : ""}
+          <button class="btn sm" data-edit>Edit</button>
+        </div></div>`).join("") : `<div class="empty">${tab === "pending" ? "No requests waiting. New website bookings will show up here." : "Nothing here."}</div>`}</div>`;
+  $("#addBk").onclick = () => bookingModal(null);
+  $$("[data-bk]").forEach(el => {
+    const b = data.find(x => x.id === el.dataset.bk);
+    $$("[data-act]", el).forEach(btn => btn.onclick = async () => {
+      if (btn.dataset.act === "cancelled" && !(await confirmBox("Cancel this booking?", `${esc(b.full_name)}, ${fmtDate(b.preferred_date)}`, "Cancel booking", true))) return;
+      const { error } = await sb.from("bookings").update({ status: btn.dataset.act, handled_by: S.me.id }).eq("id", b.id);
+      if (error) return fail(error);
+      toast({ confirmed: "Booking confirmed", no_show: "Marked as no-show", cancelled: "Booking cancelled" }[btn.dataset.act]); route();
+    });
+    $("[data-edit]", el).onclick = () => bookingModal(b);
+  });
+}
+function bookingModal(b) {
+  const isNew = !b; b = b || { preferred_date: today(), source: "messenger", status: "confirmed" };
+  const svc = activeServices();
+  const m = openModal(`<h3>${isNew ? "Add booking" : "Edit booking"}</h3><form id="bkForm">
+    <div class="g2"><div class="f"><label>Name *</label><input name="full_name" required value="${esc(b.full_name)}"></div>
+    <div class="f"><label>Mobile *</label><input name="phone" required value="${esc(b.phone)}"></div></div>
+    <div class="f"><label>Service</label><select name="service_id"><option value="">Not decided</option>${svc.map(s => `<option value="${s.id}"${s.id === b.service_id ? " selected" : ""}>${esc(s.category)} · ${esc(serviceLabel(s))}</option>`).join("")}</select></div>
+    <div class="g3"><div class="f"><label>Date *</label><input type="date" name="preferred_date" required value="${b.preferred_date}"></div>
+    <div class="f"><label>Time</label><input type="time" name="preferred_time" value="${(b.preferred_time || "").slice(0, 5)}"></div>
+    <div class="f"><label>Source</label><select name="source">${["website", "messenger", "phone", "walk-in", "instagram", "other"].map(s => `<option${b.source === s ? " selected" : ""}>${s}</option>`).join("")}</select></div></div>
+    <div class="f"><label>Status</label><select name="status">${["pending", "confirmed", "done", "cancelled", "no_show"].map(s => `<option value="${s}"${b.status === s ? " selected" : ""}>${s.replace("_", "-")}</option>`).join("")}</select></div>
+    <div class="f"><label>Client’s message</label><textarea name="message">${esc(b.message)}</textarea></div>
+    <div class="f"><label>Staff notes</label><input name="staff_notes" value="${esc(b.staff_notes)}"></div>
+    <div class="foot">${!isNew && isAdmin() ? `<button type="button" class="btn danger" id="bkDel" style="margin-right:auto">Delete</button>` : ""}<button type="button" class="btn" data-x>Cancel</button><button class="btn pri">${isNew ? "Add booking" : "Save changes"}</button></div></form>`);
+  $("[data-x]", m).onclick = closeModal;
+  const del = $("#bkDel");
+  if (del) del.onclick = async () => {
+    if (!(await confirmBox("Delete this booking?", "This removes it permanently. Use Cancel instead if you want to keep a record.", "Delete booking", true))) return;
+    const { error } = await sb.from("bookings").delete().eq("id", b.id);
+    if (error) return fail(error); toast("Booking deleted"); route();
+  };
+  $("#bkForm").onsubmit = async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target); const g = n => (fd.get(n) || "").toString().trim() || null;
+    const s = S.services.find(x => x.id === g("service_id"));
+    const row = { full_name: g("full_name"), phone: g("phone"), service_id: g("service_id"), service_name: s ? serviceLabel(s) : (isNew ? null : b.service_name),
+      preferred_date: g("preferred_date"), preferred_time: g("preferred_time"), source: g("source"), status: g("status"), message: g("message"), staff_notes: g("staff_notes"), handled_by: S.me.id };
+    const { error } = isNew ? await sb.from("bookings").insert(row) : await sb.from("bookings").update(row).eq("id", b.id);
+    if (error) return fail(error);
+    closeModal(); toast(isNew ? "Booking added" : "Booking updated"); route();
+  };
+}
+
+/* ============================================================
+   SERVICES & PRICES
+   ============================================================ */
+async function pageServices() {
+  const { data, error } = await sb.from("services").select("*").order("category").order("sort_order").order("name");
+  if (error) throw error;
+  S.services = data;
+  const cats = [...new Set(data.map(s => s.category))];
+  $("#view").innerHTML = head("Services & prices", "Changes here update the website menu and the visit form right away.", isAdmin() ? `<button class="btn pri" id="addSvc">Add service</button>` : "") +
+    cats.map(c => `<div class="card"><h2>${esc(c)}</h2><div class="tbl-wrap"><table><thead><tr><th>Service</th><th>Length</th><th class="num">Price</th><th>Shown on website</th><th></th></tr></thead><tbody>
+      ${data.filter(s => s.category === c).map(s => `<tr${s.active ? "" : ` style="opacity:.55"`}><td><b>${esc(s.name)}</b> ${s.is_iv ? `<span class="pill gold">IV</span>` : ""} ${s.coming_soon ? `<span class="pill">Coming soon</span>` : ""} ${s.active ? "" : `<span class="pill">Not offered</span>`}</td>
+        <td>${s.duration_min ? s.duration_min + " mins" : "—"}</td><td class="num">${s.price != null ? peso(s.price) : `<span class="muted">Ask us</span>`}</td>
+        <td>${s.active && s.show_on_site ? "Yes" : `<span class="muted">No</span>`}</td><td class="num">${isAdmin() ? `<button class="btn sm" data-svc="${s.id}">Edit</button>` : ""}</td></tr>`).join("")}
+    </tbody></table></div></div>`).join("") + (data.length ? "" : `<div class="card empty">No services yet.</div>`);
+  if (isAdmin()) {
+    $("#addSvc").onclick = () => serviceModal(null, cats);
+    $$("[data-svc]").forEach(b => b.onclick = () => serviceModal(data.find(s => s.id === b.dataset.svc), cats));
+  }
+}
+function serviceModal(s, cats) {
+  const isNew = !s; s = s || { active: true, show_on_site: true, sort_order: 100 };
+  const m = openModal(`<h3>${isNew ? "Add service" : "Edit service"}</h3><form id="svForm">
+    <div class="g2"><div class="f"><label>Category *</label><input name="category" list="catList" required value="${esc(s.category)}"><datalist id="catList">${cats.map(c => `<option value="${esc(c)}">`).join("")}</datalist></div>
+    <div class="f"><label>Service name *</label><input name="name" required value="${esc(s.name)}"></div></div>
+    <div class="g3"><div class="f"><label>Length (mins)</label><input type="number" name="duration_min" min="0" value="${s.duration_min ?? ""}"></div>
+    <div class="f"><label>Price (₱)</label><input type="number" name="price" min="0" step="0.01" value="${s.price ?? ""}" placeholder="Blank = Ask us"></div>
+    <div class="f"><label>Order in list</label><input type="number" name="sort_order" value="${s.sort_order ?? 100}"></div></div>
+    <div class="f"><label>Short description</label><input name="description" value="${esc(s.description)}"></div>
+    <label class="chk"><input type="checkbox" name="active"${s.active ? " checked" : ""}>Currently offered</label>
+    <label class="chk"><input type="checkbox" name="show_on_site"${s.show_on_site ? " checked" : ""}>Show on the website menu</label>
+    <label class="chk"><input type="checkbox" name="coming_soon"${s.coming_soon ? " checked" : ""}>Coming soon (listed on the website but can’t be booked or recorded)</label>
+    <label class="chk"><input type="checkbox" name="is_iv"${s.is_iv ? " checked" : ""}>IV treatment (asks for doctor, dose, lot no. and IV site on the visit form)</label>
+    <div class="foot">${!isNew ? `<button type="button" class="btn danger" id="svDel" style="margin-right:auto">Delete</button>` : ""}<button type="button" class="btn" data-x>Cancel</button><button class="btn pri">${isNew ? "Add service" : "Save changes"}</button></div></form>`);
+  $("[data-x]", m).onclick = closeModal;
+  const del = $("#svDel");
+  if (del) del.onclick = async () => {
+    if (!(await confirmBox("Delete this service?", "Past visits keep the service name. To hide it without deleting, uncheck “Currently offered” instead.", "Delete service", true))) return;
+    const { error } = await sb.from("services").delete().eq("id", s.id);
+    if (error) return fail(error); toast("Service deleted"); route();
+  };
+  $("#svForm").onsubmit = async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target); const g = n => (fd.get(n) || "").toString().trim();
+    const row = { category: g("category"), name: g("name"), duration_min: num(g("duration_min")), price: num(g("price")), sort_order: num(g("sort_order")) || 0, description: g("description") || null,
+      active: !!fd.get("active"), show_on_site: !!fd.get("show_on_site"), coming_soon: !!fd.get("coming_soon"), is_iv: !!fd.get("is_iv") };
+    const { error } = isNew ? await sb.from("services").insert(row) : await sb.from("services").update(row).eq("id", s.id);
+    if (error) return fail(error);
+    closeModal(); toast(isNew ? "Service added" : "Service updated"); route();
+  };
+}
+
+/* ============================================================
+   STAFF (admin)
+   ============================================================ */
+async function pageStaff() {
+  const { data, error } = await sb.from("staff").select("*").order("active", { ascending: false }).order("full_name");
+  if (error) throw error;
+  S.staff = data;
+  const pend = data.filter(s => s.role === "pending");
+  $("#view").innerHTML = head("Staff", "Everyone who handles clients. Therapists don’t need a login to be assigned to services.", `<button class="btn pri" id="addStaff">Add staff</button>`) +
+    (pend.length ? `<div class="alert warn"><b>${pend.length} new login${pend.length > 1 ? "s" : ""} waiting for a role:</b> ${pend.map(p => esc(p.email)).join(", ")}. Click Edit to set their role.</div>` : "") +
+    `<div class="card"><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Login</th><th>PRC license</th><th>Status</th><th></th></tr></thead><tbody>
+      ${data.map(s => `<tr${s.active ? "" : ` style="opacity:.55"`}><td><b>${esc(s.full_name)}</b>${s.id === S.me.id ? ` <span class="muted small">(you)</span>` : ""}</td><td>${s.role === "pending" ? `<span class="pill warn">Pending</span>` : ROLE_LABEL[s.role]}</td>
+        <td>${esc(s.email || "—")}</td><td>${s.user_id ? `<span class="pill ok">Can sign in</span>` : `<span class="muted small">No login</span>`}</td><td>${esc(s.prc_license || "—")}</td>
+        <td>${s.active ? "Active" : "Inactive"}</td><td class="num"><button class="btn sm" data-st="${s.id}">Edit</button></td></tr>`).join("")}
+    </tbody></table></div></div>
+    <div class="card"><h2>Giving someone a login</h2><ol class="small" style="margin:0;padding-left:18px;line-height:1.8">
+      <li>In Supabase, open <b>Authentication → Users → Add user → Create new user</b>. Enter their email and a temporary password, and tick <b>Auto Confirm User</b>.</li>
+      <li>If you already added them here with the same email, their login links automatically and keeps the role you set.</li>
+      <li>Otherwise they appear here as <b>Pending</b>. Click Edit and choose their role.</li>
+      <li>To remove access, set them to Inactive. Their past records stay intact.</li></ol></div>`;
+  $("#addStaff").onclick = () => staffModal(null);
+  $$("[data-st]").forEach(b => b.onclick = () => staffModal(data.find(s => s.id === b.dataset.st)));
+}
+function staffModal(s) {
+  const isNew = !s; s = s || { role: "therapist", active: true };
+  const self = s.id === S.me.id;
+  const m = openModal(`<h3>${isNew ? "Add staff" : "Edit staff"}</h3><form id="stForm">
+    <div class="f"><label>Full name *</label><input name="full_name" required value="${esc(s.full_name)}"></div>
+    <div class="g2"><div class="f"><label>Role</label><select name="role"${self ? " disabled" : ""}>${["therapist", "doctor", "frontdesk", "admin", "pending"].map(r => `<option value="${r}"${s.role === r ? " selected" : ""}>${ROLE_LABEL[r]}</option>`).join("")}</select>${self ? `<p class="small muted" style="margin:4px 0 0">You can’t change your own role.</p>` : ""}</div>
+    <div class="f"><label>Email ${s.user_id ? "(login)" : "(optional)"}</label><input name="email" type="email" value="${esc(s.email)}"${s.user_id ? " readonly" : ""}></div></div>
+    <div class="g2"><div class="f"><label>Mobile</label><input name="phone" value="${esc(s.phone)}"></div>
+    <div class="f"><label>PRC license no. <span class="muted">(doctors / nurses)</span></label><input name="prc_license" value="${esc(s.prc_license)}"></div></div>
+    <label class="chk"><input type="checkbox" name="active"${s.active ? " checked" : ""}${self ? " disabled" : ""}>Active</label>
+    <p class="small muted">Front desk: records visits, sees sales and bookings. Therapist / doctor: records visits and client notes. Admin: everything, including prices and staff.</p>
+    <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri">${isNew ? "Add staff" : "Save changes"}</button></div></form>`);
+  $("[data-x]", m).onclick = closeModal;
+  $("#stForm").onsubmit = async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target); const g = n => (fd.get(n) || "").toString().trim() || null;
+    const row = { full_name: g("full_name"), phone: g("phone"), prc_license: g("prc_license") };
+    if (!s.user_id) row.email = g("email") ? g("email").toLowerCase() : null;
+    if (!self) { row.role = g("role"); row.active = !!fd.get("active"); }
+    const { error } = isNew ? await sb.from("staff").insert(row) : await sb.from("staff").update(row).eq("id", s.id);
+    if (error) return fail(error);
+    closeModal(); toast(isNew ? "Staff added" : "Staff updated"); route();
+  };
+}
+
+/* ============================================================
+   WEBSITE INFO (admin)
+   ============================================================ */
+async function pageSettings() {
+  const { data } = await sb.from("settings").select("value").eq("key", "business").maybeSingle();
+  const s = (data && data.value) || {};
+  const hrs = (s.hours || []).concat([{}, {}, {}]).slice(0, 3);
+  $("#view").innerHTML = head("Website info", "Shown on the public website and printed receipts.") +
+    `<form id="setForm" class="card" style="max-width:760px">
+      <div class="g2"><div class="f"><label>Business name</label><input name="name" value="${esc(s.name)}"></div>
+      <div class="f"><label>Location name</label><input name="location" value="${esc(s.location)}"></div></div>
+      <div class="f"><label>Address</label><input name="address" value="${esc(s.address)}"></div>
+      <div class="f"><label>Contact numbers <span class="muted">(one per line)</span></label><textarea name="phones" rows="2">${esc((s.phones || []).join("\n"))}</textarea></div>
+      <div class="g2"><div class="f"><label>Instagram handle</label><input name="instagram" value="${esc(s.instagram)}"></div>
+      <div class="f"><label>Facebook page name</label><input name="facebook_name" value="${esc(s.facebook_name)}"></div></div>
+      <div class="g2"><div class="f"><label>Facebook page link</label><input name="facebook_url" type="url" value="${esc(s.facebook_url)}" placeholder="https://facebook.com/…"></div>
+      <div class="f"><label>“Message us” link</label><input name="message_url" type="url" value="${esc(s.message_url)}" placeholder="m.me link or booking link"></div></div>
+      <label>Opening hours</label>
+      ${hrs.map((h, i) => `<div class="g2"><div class="f"><input name="hd${i}" value="${esc(h.days)}" placeholder="e.g. Monday to Saturday"></div><div class="f"><input name="ht${i}" value="${esc(h.time)}" placeholder="e.g. 9:00 AM – 11:00 PM"></div></div>`).join("")}
+      <div class="f"><label>About text</label><textarea name="about" rows="4">${esc(s.about)}</textarea></div>
+      <button class="btn pri">Save website info</button>
+    </form>`;
+  $("#setForm").onsubmit = async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target); const g = n => (fd.get(n) || "").toString().trim();
+    const value = Object.assign({}, s, {
+      name: g("name"), location: g("location"), address: g("address"), phones: g("phones").split(/\n+/).map(x => x.trim()).filter(Boolean),
+      instagram: g("instagram").replace(/^@/, ""), facebook_name: g("facebook_name"), facebook_url: g("facebook_url"), message_url: g("message_url"), about: g("about"),
+      hours: [0, 1, 2].map(i => ({ days: g("hd" + i), time: g("ht" + i) })).filter(h => h.days && h.time)
+    });
+    const { error } = await sb.from("settings").upsert({ key: "business", value, updated_at: new Date().toISOString() });
+    if (error) return fail(error);
+    S.settings = value; toast("Website info saved");
+  };
+}
+
+init();
+</script>
+</body>
+</html>

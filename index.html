@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Movewell Wellness Center · Marikina Sports Center</title>
+<meta name="description" content="Massage, IV therapy, detox and nail care at Marikina Sports Center. Open 7 days a week. Book a visit online.">
+<meta property="og:title" content="Movewell Wellness Center">
+<meta property="og:description" content="Massage, IV therapy and self-care at Marikina Sports Center. Balance well. Live better.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="theme-color" content="#12301d">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#12301d; --pine:#1e4a2e; --gold:#b8863a; --gold-soft:#d9b26a;
+  --sage:#cdd8a0; --sage-deep:#b9c785; --linen:#f6f5ee; --ink:#1d2a21; --muted:#5d6b60;
+  --cream:#f1ead6; --line:#d8d6c6;
+  --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:"Jost", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--linen);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(18,48,29,.96);backdrop-filter:blur(8px);color:var(--cream)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:center;gap:2px;text-decoration:none;font-family:var(--serif);font-size:28px;line-height:1;letter-spacing:.01em}
+.brand img{height:34px;width:auto;margin:-6px 1px 0}
+.brand .w{color:var(--gold-soft)}
+.nav nav{margin-left:auto;display:flex;gap:26px;font-size:15px}
+.nav nav a{text-decoration:none;opacity:.85}
+.nav nav a:hover{opacity:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:500 15px/1 var(--sans);padding:14px 22px;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:background .2s,color .2s}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:#a2752f}
+.btn-ghost{border-color:rgba(241,234,214,.45);color:var(--cream)}
+.btn-ghost:hover{background:rgba(241,234,214,.1)}
+.nav .btn{padding:10px 18px}
+
+/* hero */
+.hero{background:var(--forest);color:var(--cream);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:end;padding-top:72px}
+.hero-copy{padding-bottom:88px}
+.mark{font-family:var(--serif);font-weight:500;font-size:clamp(64px,10vw,124px);line-height:.85;letter-spacing:-.01em;margin:0;display:flex;align-items:flex-end}
+.mark img{height:.98em;width:auto;margin:0 .02em -.04em}
+.mark .w{color:var(--gold-soft)}
+.express{display:flex;align-items:center;gap:16px;margin:22px 0 0;font-size:14px;letter-spacing:.42em;color:var(--cream);opacity:.9}
+.express::before,.express::after{content:"";height:1px;width:44px;flex:0 0 44px;background:var(--gold)}
+.express{white-space:nowrap}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.2vw,38px);line-height:1.2;margin:40px 0 14px;max-width:21ch}
+.hero p.lead{margin:0 0 32px;max-width:46ch;opacity:.82}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px}
+.arch-frame{position:relative;justify-self:center;width:min(380px,100%);padding-top:34px}
+.arch-frame::before{content:"";position:absolute;left:-18px;right:-18px;top:0;aspect-ratio:1/1;border:3px solid transparent;border-top-color:var(--gold);border-radius:50%;}
+.arch-frame img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:190px 190px 0 0}
+
+/* strip */
+.strip{background:var(--pine);color:var(--cream);font-size:15px}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:12px 40px;padding-top:16px;padding-bottom:16px}
+.strip b{font-weight:500;color:var(--gold-soft)}
+
+/* sections */
+section{padding:96px 0}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(36px,4.4vw,52px);line-height:1.08;margin:0 0 14px}
+.sub{color:var(--muted);max-width:56ch;margin:0}
+
+/* services menu */
+#services{background:var(--sage)}
+.menu-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px}
+.menu-head .sub{color:#46523f}
+.menu-card{background:#fff;border-radius:320px 320px 18px 18px;padding:96px clamp(22px,6vw,80px) 56px;max-width:860px;margin:0 auto;position:relative}
+.menu-card .crest{width:46px;margin:0 auto 10px}
+.menu-card .title{text-align:center;font-family:var(--serif);font-size:30px;margin:0 0 6px}
+.rule{height:1px;background:var(--gold);width:min(320px,70%);margin:0 auto 30px}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:34px}
+.tab{font:500 15px var(--sans);padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--forest);border-color:var(--forest);color:var(--cream)}
+.cat-note{margin:-14px 0 24px;text-align:center;color:var(--muted);font-size:15px}
+.svc{margin:0 0 18px;break-inside:avoid}
+.svc-name{font-family:var(--serif);font-style:italic;font-size:22px;font-weight:600;color:var(--forest);line-height:1.2}
+.line{display:flex;align-items:baseline;gap:10px;font-size:16px}
+.line .lbl{color:var(--muted)}
+.line .dots{flex:1;border-bottom:1px dotted #a9ae98;transform:translateY(-4px)}
+.line .amt{font-weight:500;font-variant-numeric:tabular-nums}
+.svc.single{display:flex;align-items:baseline;gap:10px}
+.svc.single .dots{flex:1;border-bottom:1px dotted #a9ae98;transform:translateY(-4px)}
+.svc.single .amt{font-weight:500;font-variant-numeric:tabular-nums}
+.soon{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:15px}
+.soon span{display:inline-block;margin:4px 6px;padding:4px 12px;border-radius:999px;background:var(--linen);color:var(--ink)}
+.menu-grid{columns:2;column-gap:56px}
+@media (max-width:720px){.menu-grid{columns:1}}
+
+/* about */
+#about .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:72px;align-items:center}
+.arch-sm img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:999px 999px 14px 14px}
+.about-text p{font-family:var(--serif);font-size:24px;line-height:1.45;margin:0 0 30px;max-width:34ch}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid var(--line);padding-top:24px}
+.facts strong{display:block;font-family:var(--serif);font-size:22px;font-weight:600;color:var(--forest);line-height:1.2;margin-bottom:4px}
+.facts span{font-size:15px;color:var(--muted)}
+
+/* book */
+#book{background:var(--forest);color:var(--cream)}
+#book .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
+#book .sub{color:rgba(241,234,214,.75)}
+form.card{background:var(--linen);color:var(--ink);border-radius:18px;padding:32px;margin-top:28px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;font-size:14px;font-weight:500;margin:0 0 6px}
+.field{margin-bottom:16px}
+input,select,textarea{width:100%;font:16px var(--sans);color:var(--ink);background:#fff;border:1px solid #cfcdbd;border-radius:10px;padding:12px 14px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-msg{margin:14px 0 0;font-size:15px}
+.form-msg.ok{color:#1e6a3a}.form-msg.err{color:#a3342a}
+.fine{font-size:13px;color:var(--muted);margin:12px 0 0}
+.visit h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:28px 0 10px;color:var(--gold-soft)}
+.visit h3:first-child{margin-top:0}
+.hours{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;font-size:16px}
+.hours .today{color:var(--gold-soft)}
+.contact a{display:block;text-decoration:none;padding:3px 0;opacity:.9}
+.contact a:hover{opacity:1;text-decoration:underline}
+.map{margin-top:24px;border-radius:14px;overflow:hidden;border:1px solid rgba(241,234,214,.2)}
+.map iframe{display:block;width:100%;height:220px;border:0;filter:saturate(.7)}
+
+footer{background:#0c2214;color:rgba(241,234,214,.7);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;padding-top:26px;padding-bottom:26px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--cream)}
+
+@media (max-width:900px){
+  .hero .wrap,#about .wrap,#book .wrap{grid-template-columns:1fr}
+  .hero .wrap{padding-top:48px;gap:12px}
+  .hero-copy{padding-bottom:16px}
+  .arch-frame{width:min(300px,80%)}
+  .nav nav{display:none}
+  .nav .btn{margin-left:auto}
+  #about .wrap{gap:40px}
+  .arch-sm{max-width:340px}
+}
+@media (max-width:560px){
+  section{padding:72px 0}
+  .grid2,.facts{grid-template-columns:1fr}
+  .express{font-size:12px;letter-spacing:.3em;gap:12px}
+  .express::before,.express::after{width:24px;flex-basis:24px}
+  .menu-card{border-radius:200px 200px 16px 16px;padding-top:72px}
+  form.card{padding:22px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Movewell home">move<img src="assets/icon-light.png" alt=""><span class="w">well</span></a>
+    <nav aria-label="Main">
+      <a href="#services">Services &amp; prices</a>
+      <a href="#about">About</a>
+      <a href="#book">Hours &amp; location</a>
+    </nav>
+    <a class="btn btn-gold" href="#book">Book a visit</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" style="padding:0">
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="mark" aria-label="Movewell">move<img src="assets/icon-light.png" alt=""><span class="w">well</span></p>
+        <p class="express">WELLNESS EXPRESS</p>
+        <h1>Massage, IV therapy and self-care inside Marikina Sports Center.</h1>
+        <p class="lead">Certified massage therapists, IV treatments given by licensed doctors, and a quiet room to reset after a game, a workout or a long week.</p>
+        <div class="actions">
+          <a class="btn btn-gold" href="#book">Book a visit</a>
+          <a class="btn btn-ghost" id="msgBtn" href="#book" target="_blank" rel="noopener">Message us</a>
+        </div>
+      </div>
+      <div class="arch-frame"><img src="assets/therapist.jpg" alt="A Movewell therapist giving a chair massage"></div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap">
+      <span><b>Today</b> <span id="todayHours">Open 7 days a week</span></span>
+      <span><b>Where</b> Marikina Sports Center</span>
+      <span><b>Call or text</b> <span id="stripPhone">+63 927 557 3040</span></span>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="menu-head">
+        <div>
+          <h2>Services and prices</h2>
+          <p class="sub">Choose a massage by length, add a detox or IV session, or drop by for nails and brows while you’re at the sports center.</p>
+        </div>
+        <a class="btn btn-gold" href="#book">Book a visit</a>
+      </div>
+
+      <div class="menu-card">
+        <img class="crest" src="assets/icon.png" alt="">
+        <p class="title">Menu of services</p>
+        <div class="rule"></div>
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <div id="menu" role="tabpanel" aria-live="polite"></div>
+        <div class="soon" id="soon" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="arch-sm"><img src="assets/chair.jpg" alt="Massage chairs in the Movewell room" loading="lazy"></div>
+      <div class="about-text">
+        <h2>Self-care, a few steps from the court</h2>
+        <p id="aboutText">Movewell brings relaxation and self-care closer to you at Marikina Sports Center, so recovery fits into the same trip as your game or workout.</p>
+        <div class="facts">
+          <div><strong>Certified therapists</strong><span>Swedish, deep tissue, hilot, lymphatic and more</span></div>
+          <div><strong>Licensed doctors</strong><span>Every IV treatment is given by a doctor</span></div>
+          <div><strong>Open every day</strong><span>Until 11 PM, including Sundays</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book">
+    <div class="wrap">
+      <div>
+        <h2>Book a visit</h2>
+        <p class="sub">Send a request and we’ll call or text to confirm your slot. For same-day visits, message us so we can check who’s free.</p>
+        <form class="card" id="bookForm" novalidate>
+          <div class="grid2">
+            <div class="field"><label for="bName">Full name</label><input id="bName" name="name" autocomplete="name" required maxlength="120"></div>
+            <div class="field"><label for="bPhone">Mobile number</label><input id="bPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="09XX XXX XXXX" required maxlength="30"></div>
+          </div>
+          <div class="field"><label for="bService">Service</label><select id="bService" name="service"></select></div>
+          <div class="grid2">
+            <div class="field"><label for="bDate">Preferred date</label><input id="bDate" name="date" type="date" required></div>
+            <div class="field"><label for="bTime">Preferred time</label><select id="bTime" name="time"></select></div>
+          </div>
+          <div class="field"><label for="bMsg">Anything we should know? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="bMsg" name="message" maxlength="1000" placeholder="Areas to focus on, pregnancy, injuries, number of people…"></textarea></div>
+          <div class="hp" aria-hidden="true"><label for="bWeb">Website</label><input id="bWeb" name="website" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-gold" type="submit" id="bSubmit">Send booking request</button>
+          <p class="form-msg" id="bMsgOut" role="status"></p>
+          <p class="fine">We only use your details to arrange your visit.</p>
+        </form>
+      </div>
+
+      <div class="visit">
+        <h3>Opening hours</h3>
+        <div class="hours" id="hours"></div>
+        <h3>Find us</h3>
+        <p style="margin:0 0 6px" id="address">Marikina Sports Center, Marikina City</p>
+        <div class="contact" id="contact"></div>
+        <div class="map"><iframe title="Map to Marikina Sports Center" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Marikina+Sports+Center&output=embed"></iframe></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Movewell Wellness Center · Balance well. Live better.</span>
+    <a href="staff.html">Staff login</a>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+"use strict";
+// Fallback copy of the 2026 pricelist, used if the database can't be reached.
+const FALLBACK = [
+ ["Wellness Massage","Swedish Massage",60,799],["Wellness Massage","Swedish Massage",90,1199],
+ ["Wellness Massage","Deep Tissue",60,999],["Wellness Massage","Deep Tissue",90,1299],
+ ["Wellness Massage","Hot Stones",60,1199],["Wellness Massage","Hot Stones",90,1399],
+ ["Wellness Massage","Lymphatic Massage",60,999],["Wellness Massage","Lymphatic Massage",90,1299],
+ ["Wellness Massage","Madero Therapy Massage",90,1199],["Wellness Massage","Pregnancy Massage",60,899],
+ ["Wellness Massage","Postnatal Massage",60,899],["Wellness Massage","Hilot",60,899],["Wellness Massage","Hilot",90,1099],
+ ["Wellness Massage","Foot Massage",30,300],["Wellness Massage","Hydro Therapy",null,null],
+ ["Chair Massage","Chair Massage – Movewell",15,150],["Chair Massage","Chair Massage – Movewell",20,200],["Chair Massage","Chair Massage – Movewell",30,300],
+ ["Chair Massage","Chair Massage – Move Up",15,170],["Chair Massage","Chair Massage – Move Up",20,220],["Chair Massage","Chair Massage – Move Up",30,320],
+ ["Detox & IV Therapy","Foot Detox",null,1000],["Detox & IV Therapy","Foot Therapy",90,1499],
+ ["Detox & IV Therapy","Regular Vitamin C",null,5500,1],["Detox & IV Therapy","High Dose Vitamin C",null,6500,1],["Detox & IV Therapy","Mega Dose Vitamin C",null,7500,1],
+ ["Detox & IV Therapy","Alpha Lipoic Acid",null,5000,1],["Detox & IV Therapy","Gluta Push",null,2500,1],["Detox & IV Therapy","Chelation",null,6000,1],
+ ["Detox & IV Therapy","Plaquex",null,6000,1],["Detox & IV Therapy","NAD+ Therapy",null,10000,1],["Detox & IV Therapy","Meyers’ Cocktail",null,4500,1],
+ ["Detox & IV Therapy","Coffee Colon Enema",null,null,0,1],
+ ["Beauty & Nails","Eyebrow Threading",null,200],["Beauty & Nails","Manicure – Cleaning",null,120],["Beauty & Nails","Manicure – with Basic Polish",null,150],
+ ["Beauty & Nails","Pedicure – Cleaning",null,150],["Beauty & Nails","Pedicure – with Basic Polish",null,180],["Beauty & Nails","Foot Spa",null,250],["Beauty & Nails","Hand Spa",null,200],
+ ["Beauty & Nails","Nail Art",null,null,0,1],["Beauty & Nails","Gel Polish",null,null,0,1],["Beauty & Nails","Soft Gel",null,null,0,1],["Beauty & Nails","Nail Extensions",null,null,0,1]
+].map((r,i)=>({id:null,category:r[0],name:r[1],duration_min:r[2],price:r[3],is_iv:!!r[4],coming_soon:!!r[5],show_on_site:true,sort_order:i}));
+
+const CAT_ORDER = ["Wellness Massage","Chair Massage","Detox & IV Therapy","Beauty & Nails"];
+const CAT_NOTES = {"Detox & IV Therapy":"IV treatments are given by licensed doctors. A short health check is done before your session.","Chair Massage":"Quick seated sessions, good before or after a game."};
+const DEFAULT_SETTINGS = {
+  phones:["+63 927 557 3040"], instagram:"movewell.wc", facebook_name:"Movewell - Wellness center", facebook_url:"",
+  message_url:"https://qr.generatorqr.com/DAA5kp7Dn", address:"Marikina Sports Center, Marikina City",
+  hours:[{days:"Monday to Saturday",time:"9:00 AM – 11:00 PM"},{days:"Sunday",time:"1:00 PM – 11:00 PM"}]
+};
+
+const cfg = window.MOVEWELL_CONFIG || {};
+const configured = cfg.SUPABASE_URL && !/YOUR-PROJECT/.test(cfg.SUPABASE_URL) && window.supabase;
+const sb = configured ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY) : null;
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const peso = n => n == null ? "Ask us" : "₱" + Number(n).toLocaleString("en-PH", {maximumFractionDigits: 2});
+const manilaNow = () => new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"}));
+const isoDate = d => d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+
+let services = FALLBACK, activeCat = CAT_ORDER[0];
+
+function renderTabs(){
+  const cats = CAT_ORDER.filter(c => services.some(s => s.category === c && !s.coming_soon))
+    .concat([...new Set(services.filter(s=>!s.coming_soon).map(s => s.category))].filter(c => !CAT_ORDER.includes(c)));
+  if (!cats.includes(activeCat)) activeCat = cats[0];
+  const tabs = document.getElementById("tabs");
+  tabs.innerHTML = cats.map(c => `<button class="tab" role="tab" aria-selected="${c===activeCat}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+  tabs.querySelectorAll(".tab").forEach(b => b.onclick = () => { activeCat = b.dataset.cat; renderTabs(); renderMenu(); });
+}
+
+function renderMenu(){
+  const list = services.filter(s => s.category === activeCat && !s.coming_soon);
+  const groups = [];
+  list.forEach(s => { let g = groups.find(x => x.name === s.name); if (!g) groups.push(g = {name:s.name, rows:[]}); g.rows.push(s); });
+  const note = CAT_NOTES[activeCat] ? `<p class="cat-note">${esc(CAT_NOTES[activeCat])}</p>` : "";
+  document.getElementById("menu").innerHTML = note + `<div class="menu-grid">` + groups.map(g => {
+    if (g.rows.length === 1 && !g.rows[0].duration_min) {
+      return `<div class="svc single"><span class="svc-name">${esc(g.name)}</span><span class="dots"></span><span class="amt">${peso(g.rows[0].price)}</span></div>`;
+    }
+    return `<div class="svc"><div class="svc-name">${esc(g.name)}</div>` + g.rows.map(r =>
+      `<div class="line"><span class="lbl">${r.duration_min ? r.duration_min + " mins" : "Session"}</span><span class="dots"></span><span class="amt">${peso(r.price)}</span></div>`).join("") + `</div>`;
+  }).join("") + `</div>`;
+
+  const soon = services.filter(s => s.coming_soon);
+  const el = document.getElementById("soon");
+  el.hidden = !soon.length;
+  el.innerHTML = `Coming soon<br>` + soon.map(s => `<span>${esc(s.name)}</span>`).join("");
+}
+
+function renderServiceSelect(){
+  const sel = document.getElementById("bService");
+  const avail = services.filter(s => !s.coming_soon);
+  let html = `<option value="">Not sure yet, help me choose</option>`;
+  CAT_ORDER.concat([...new Set(avail.map(s=>s.category))].filter(c=>!CAT_ORDER.includes(c))).forEach(c => {
+    const rows = avail.filter(s => s.category === c);
+    if (!rows.length) return;
+    html += `<optgroup label="${esc(c)}">` + rows.map((s,i) => {
+      const label = s.name + (s.duration_min ? ` (${s.duration_min} mins)` : "") + (s.price != null ? ` – ${peso(s.price)}` : "");
+      return `<option value="${esc(s.id || "")}" data-label="${esc(label)}">${esc(label)}</option>`;
+    }).join("") + `</optgroup>`;
+  });
+  sel.innerHTML = html;
+}
+
+function hoursFor(date){ // returns [openHour, closeHour] in 24h
+  return date.getDay() === 0 ? [13, 23] : [9, 23];
+}
+function renderTimes(){
+  const dEl = document.getElementById("bDate"), tEl = document.getElementById("bTime");
+  const val = dEl.value; const prev = tEl.value;
+  const day = val ? new Date(val + "T12:00:00") : manilaNow();
+  const [open, close] = hoursFor(day);
+  const now = manilaNow(); const isToday = val === isoDate(now);
+  let opts = `<option value="">Any time</option>`;
+  for (let m = open*60; m <= (close-1)*60; m += 30) {
+    if (isToday && m <= now.getHours()*60 + now.getMinutes() + 30) continue;
+    const h = Math.floor(m/60), mm = m%60;
+    const v = String(h).padStart(2,"0") + ":" + String(mm).padStart(2,"0");
+    const lbl = ((h+11)%12+1) + ":" + String(mm).padStart(2,"0") + (h<12?" AM":" PM");
+    opts += `<option value="${v}"${v===prev?" selected":""}>${lbl}</option>`;
+  }
+  tEl.innerHTML = opts;
+}
+
+function applySettings(s){
+  s = Object.assign({}, DEFAULT_SETTINGS, s || {});
+  const now = manilaNow(); const sunday = now.getDay() === 0;
+  document.getElementById("hours").innerHTML = (s.hours||[]).map(h => {
+    const isToday = sunday ? /sun/i.test(h.days) : !/^sun/i.test(h.days);
+    return `<span class="${isToday?"today":""}">${esc(h.days)}</span><span class="${isToday?"today":""}">${esc(h.time)}</span>`;
+  }).join("");
+  const todayRow = (s.hours||[]).find(h => sunday ? /sun/i.test(h.days) : !/^sun/i.test(h.days));
+  if (todayRow) document.getElementById("todayHours").textContent = "Open " + todayRow.time;
+  const phones = (s.phones||[]).filter(Boolean);
+  if (phones[0]) document.getElementById("stripPhone").textContent = phones[0];
+  let c = phones.map(p => `<a href="tel:${esc(p.replace(/[^+\d]/g,""))}">${esc(p)}</a>`).join("");
+  if (s.instagram) c += `<a href="https://instagram.com/${esc(s.instagram.replace(/^@/,""))}" target="_blank" rel="noopener">Instagram @${esc(s.instagram.replace(/^@/,""))}</a>`;
+  if (s.facebook_name) c += s.facebook_url ? `<a href="${esc(s.facebook_url)}" target="_blank" rel="noopener">Facebook: ${esc(s.facebook_name)}</a>` : `<a>Facebook: ${esc(s.facebook_name)}</a>`;
+  document.getElementById("contact").innerHTML = c;
+  if (s.address) document.getElementById("address").textContent = s.address;
+  if (s.about) document.getElementById("aboutText").textContent = s.about;
+  const msg = document.getElementById("msgBtn");
+  const link = s.message_url || s.facebook_url;
+  if (link) msg.href = link; else { msg.removeAttribute("target"); msg.href = "#book"; }
+}
+
+async function load(){
+  renderTabs(); renderMenu(); renderServiceSelect(); applySettings(null);
+  if (!sb) return;
+  try {
+    const [sv, st] = await Promise.all([
+      sb.from("services").select("id,category,name,duration_min,price,is_iv,coming_soon,show_on_site,sort_order").eq("active", true).eq("show_on_site", true).order("sort_order"),
+      sb.from("settings").select("value").eq("key", "business").maybeSingle()
+    ]);
+    if (!sv.error && sv.data && sv.data.length) { services = sv.data; renderTabs(); renderMenu(); renderServiceSelect(); }
+    if (!st.error && st.data) applySettings(st.data.value);
+  } catch (e) { console.warn("Using built-in pricelist", e); }
+}
+
+// booking form
+const dEl = document.getElementById("bDate");
+const today = isoDate(manilaNow());
+dEl.min = today; dEl.value = today;
+const maxD = manilaNow(); maxD.setDate(maxD.getDate() + 120); dEl.max = isoDate(maxD);
+dEl.addEventListener("change", renderTimes);
+renderTimes();
+
+document.getElementById("bookForm").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const out = document.getElementById("bMsgOut"), btn = document.getElementById("bSubmit");
+  const f = ev.target;
+  out.className = "form-msg"; out.textContent = "";
+  if (f.website.value) return; // bot
+  const name = f.name.value.trim(), phone = f.phone.value.trim();
+  if (name.length < 2) { out.className = "form-msg err"; out.textContent = "Enter your full name."; f.name.focus(); return; }
+  if (phone.replace(/\D/g,"").length < 10) { out.className = "form-msg err"; out.textContent = "Enter a mobile number we can call or text, like 0917 123 4567."; f.phone.focus(); return; }
+  if (!f.date.value || f.date.value < today) { out.className = "form-msg err"; out.textContent = "Pick a date from today onward."; f.date.focus(); return; }
+  if (!sb) { out.className = "form-msg err"; out.textContent = "Online booking isn’t connected yet. Please use the Message us button or call us."; return; }
+  const opt = f.service.selectedOptions[0];
+  btn.disabled = true; btn.textContent = "Sending…";
+  const { error } = await sb.from("bookings").insert({
+    full_name: name, phone, service_id: f.service.value || null,
+    service_name: f.service.value ? opt.dataset.label : "Not sure yet",
+    preferred_date: f.date.value, preferred_time: f.time.value || null,
+    message: f.message.value.trim() || null, source: "website"
+  });
+  btn.disabled = false; btn.textContent = "Send booking request";
+  if (error) { out.className = "form-msg err"; out.textContent = "We couldn’t send your request. Please try again or message us."; console.error(error); return; }
+  out.className = "form-msg ok";
+  out.textContent = `Request sent. We’ll call or text ${phone} to confirm your slot.`;
+  f.reset(); dEl.value = today; renderTimes();
+});
+
+document.getElementById("yr").textContent = new Date().getFullYear();
+load();
+})();
+</script>
+</body>
+</html>
