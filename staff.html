@@ -220,7 +220,7 @@ tbody tr.click:hover{background:#fafaf5}
     <img src="assets/icon.png" alt="">
     <h1>Movewell staff</h1>
     <p class="s">Sign in to record visits and sales.</p>
-    <div id="cfgWarn" class="alert warn" hidden>Supabase isn’t connected yet. Put the project URL and anon key in <b>config.js</b>.</div>
+    <div id="cfgWarn" class="alert warn" hidden>The system isn’t connected yet. Please contact your system administrator.</div>
     <form id="loginForm">
       <div class="f"><label for="lgEmail">Email</label><input id="lgEmail" type="email" autocomplete="username" required></div>
       <div class="f"><label for="lgPass">Password</label><input id="lgPass" type="password" autocomplete="current-password" required></div>
@@ -1346,16 +1346,70 @@ async function pageStaff() {
     (pend.length ? `<div class="alert warn"><b>${pend.length} new login${pend.length > 1 ? "s" : ""} waiting for a role:</b> ${pend.map(p => esc(p.email)).join(", ")}. Click Edit to set their role.</div>` : "") +
     `<div class="card"><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Login</th><th>PRC license</th><th>Status</th><th></th></tr></thead><tbody>
       ${data.map(s => `<tr${s.active ? "" : ` style="opacity:.55"`}><td><b>${esc(s.full_name)}</b>${s.id === S.me.id ? ` <span class="muted small">(you)</span>` : ""}</td><td>${s.role === "pending" ? `<span class="pill warn">Pending</span>` : ROLE_LABEL[s.role]}</td>
-        <td>${esc(s.email || "—")}</td><td>${s.user_id ? `<span class="pill ok">Can sign in</span>` : `<span class="muted small">No login</span>`}</td><td>${esc(s.prc_license || "—")}</td>
+        <td>${esc(s.email || "—")}</td>
+        <td>${s.user_id ? `<span class="pill ok">Can sign in</span>` : `<button class="btn sm" data-login="${s.id}">Give login</button>`}</td>
+        <td>${esc(s.prc_license || "—")}</td>
         <td>${s.active ? "Active" : "Inactive"}</td><td class="num"><button class="btn sm" data-st="${s.id}">Edit</button></td></tr>`).join("")}
     </tbody></table></div></div>
-    <div class="card"><h2>Giving someone a login</h2><ol class="small" style="margin:0;padding-left:18px;line-height:1.8">
-      <li>In Supabase, open <b>Authentication → Users → Add user → Create new user</b>. Enter their email and a temporary password, and tick <b>Auto Confirm User</b>.</li>
-      <li>If you already added them here with the same email, their login links automatically and keeps the role you set.</li>
-      <li>Otherwise they appear here as <b>Pending</b>. Click Edit and choose their role.</li>
-      <li>To remove access, set them to Inactive. Their past records stay intact.</li></ol></div>`;
+    <p class="small muted">Only give a login to staff who need to record visits. Set someone to Inactive to block access; their past records stay.</p>`;
   $("#addStaff").onclick = () => staffModal(null);
   $$("[data-st]").forEach(b => b.onclick = () => staffModal(data.find(s => s.id === b.dataset.st)));
+  $$("[data-login]").forEach(b => b.onclick = () => loginModal(data.find(s => s.id === b.dataset.login)));
+}
+
+// Calls the "staff-admin" Edge Function (creates logins, sets passwords). Admin only.
+async function staffAdmin(body) {
+  const { data, error } = await sb.functions.invoke("staff-admin", { body });
+  if (error) {
+    let msg = error.message || "Request failed";
+    try { const j = await error.context.json(); if (j && j.error) msg = j.error; } catch (_) {}
+    if (/failed to send|fetch|not found|404/i.test(msg)) msg = "The login service isn’t reachable. Try again in a moment.";
+    throw new Error(msg);
+  }
+  return data;
+}
+function genTempPassword() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+  const a = new Uint32Array(10); crypto.getRandomValues(a);
+  return "Mw-" + [...a].map(n => chars[n % chars.length]).join("");
+}
+function tempPassResult(st, email, pw) {
+  const m = openModal(`<h3>Login created</h3>
+    <p>${esc(st.full_name)} can now sign in at <b>${esc(location.origin + location.pathname)}</b></p>
+    <dl class="dl" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px">
+      <dt>Email</dt><dd><b>${esc(email)}</b></dd><dt>Temporary password</dt><dd><b style="font-family:monospace;font-size:16px">${esc(pw)}</b></dd></dl>
+    <p class="small muted">Give this to them privately. They can change it with <b>Change password</b> after signing in. It won’t be shown again.</p>
+    <div class="foot"><button class="btn" id="copyPw">Copy</button><button class="btn pri" data-x>Done</button></div>`);
+  $("[data-x]", m).onclick = () => { closeModal(); route(); };
+  $("#copyPw").onclick = async () => {
+    try { await navigator.clipboard.writeText(`Movewell staff login\n${location.origin + location.pathname}\nEmail: ${email}\nTemporary password: ${pw}`); toast("Copied"); }
+    catch (_) { toast("Couldn’t copy. Select the text instead.", true); }
+  };
+}
+function loginModal(st) {
+  const m = openModal(`<h3>Give ${esc(st.full_name)} a login</h3><form id="lgnForm">
+    <div class="f"><label>Email *</label><input name="email" type="email" required value="${esc(st.email)}" placeholder="name@email.com"></div>
+    <label class="chk" style="margin-bottom:8px"><input type="radio" name="how" value="invite" checked>Email them an invite link. They set their own password.</label>
+    <label class="chk"><input type="radio" name="how" value="create">Create a temporary password now. You give it to them yourself.</label>
+    <p class="small muted" style="margin-top:12px">Their role stays <b>${esc(ROLE_LABEL[st.role])}</b>. Change it with Edit.</p>
+    <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri" id="lgnBtn">Give login</button></div></form>`);
+  $("[data-x]", m).onclick = closeModal;
+  $("#lgnForm").onsubmit = async e => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const email = (fd.get("email") || "").toString().trim().toLowerCase(), how = fd.get("how");
+    const btn = $("#lgnBtn"); btn.disabled = true; btn.textContent = "Working…";
+    try {
+      if (how === "invite") {
+        await staffAdmin({ action: "invite", staff_id: st.id, email, redirectTo: location.origin + location.pathname });
+        closeModal(); toast(`Invite sent to ${email}`); route();
+      } else {
+        const pw = genTempPassword();
+        await staffAdmin({ action: "create", staff_id: st.id, email, password: pw });
+        tempPassResult(st, email, pw);
+      }
+    } catch (err) { btn.disabled = false; btn.textContent = "Give login"; toast(err.message, true); }
+  };
 }
 function staffModal(s) {
   const isNew = !s; s = s || { role: "therapist", active: true };
@@ -1368,17 +1422,40 @@ function staffModal(s) {
     <div class="f"><label>PRC license no. <span class="muted">(doctors / nurses)</span></label><input name="prc_license" value="${esc(s.prc_license)}"></div></div>
     <label class="chk"><input type="checkbox" name="active"${s.active ? " checked" : ""}${self ? " disabled" : ""}>Active</label>
     <p class="small muted">Front desk: records visits, sees sales and bookings. Therapist / doctor: records visits and client notes. Admin: everything, including prices and staff.</p>
+    ${!isNew && s.user_id && !self ? `<fieldset><legend>Login</legend>
+      <div style="display:flex;flex-wrap:wrap;gap:8px"><button type="button" class="btn sm" id="sendReset">Email a password reset link</button>
+      <button type="button" class="btn sm" id="setTemp">Set a temporary password</button>
+      <button type="button" class="btn sm danger" id="rmLogin">Remove login</button></div></fieldset>` : ""}
     <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri">${isNew ? "Add staff" : "Save changes"}</button></div></form>`);
   $("[data-x]", m).onclick = closeModal;
+  if ($("#sendReset")) {
+    $("#sendReset").onclick = async () => {
+      const { error } = await sb.auth.resetPasswordForEmail(s.email, { redirectTo: location.origin + location.pathname });
+      if (error) return fail(error);
+      toast(`Reset link sent to ${s.email}`);
+    };
+    $("#setTemp").onclick = async () => {
+      if (!(await confirmBox("Set a temporary password?", `${esc(s.full_name)}’s current password will stop working.`, "Set password"))) return;
+      const pw = genTempPassword();
+      try { await staffAdmin({ action: "set_password", staff_id: s.id, password: pw }); tempPassResult(s, s.email, pw); }
+      catch (err) { toast(err.message, true); }
+    };
+    $("#rmLogin").onclick = async () => {
+      if (!(await confirmBox("Remove this login?", `${esc(s.full_name)} won’t be able to sign in. Their records stay, and you can give them a login again later.`, "Remove login", true))) return;
+      try { await staffAdmin({ action: "remove_login", staff_id: s.id }); toast("Login removed"); route(); }
+      catch (err) { toast(err.message, true); }
+    };
+  }
   $("#stForm").onsubmit = async e => {
     e.preventDefault();
     const fd = new FormData(e.target); const g = n => (fd.get(n) || "").toString().trim() || null;
     const row = { full_name: g("full_name"), phone: g("phone"), prc_license: g("prc_license") };
     if (!s.user_id) row.email = g("email") ? g("email").toLowerCase() : null;
     if (!self) { row.role = g("role"); row.active = !!fd.get("active"); }
-    const { error } = isNew ? await sb.from("staff").insert(row) : await sb.from("staff").update(row).eq("id", s.id);
-    if (error) return fail(error);
-    closeModal(); toast(isNew ? "Staff added" : "Staff updated"); route();
+    const { data, error } = isNew ? await sb.from("staff").insert(row).select().single() : await sb.from("staff").update(row).eq("id", s.id).select().single();
+    if (error) return fail(/duplicate|unique/i.test(error.message) ? { message: "Another staff member already uses that email." } : error);
+    closeModal(); toast(isNew ? "Staff added" : "Staff updated");
+    if (isNew && data.email) loginModal(data); else route();
   };
 }
 
