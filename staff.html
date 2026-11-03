@@ -227,7 +227,13 @@ tbody tr.click:hover{background:#fafaf5}
       <button class="btn pri" style="width:100%;padding:12px" id="lgBtn">Sign in</button>
       <p id="lgErr" class="small" style="color:var(--bad);min-height:1.5em;margin:10px 0 0"></p>
     </form>
-    <p class="small muted" style="margin:6px 0 0"><a href="index.html">Back to website</a></p>
+    <form id="forgotForm" hidden>
+      <p class="small" style="margin:0 0 12px">Enter your email and we’ll send a link to set a new password.</p>
+      <div class="f"><label for="fgEmail">Email</label><input id="fgEmail" type="email" autocomplete="username" required></div>
+      <button class="btn pri" style="width:100%;padding:12px" id="fgBtn">Send reset link</button>
+      <p id="fgMsg" class="small" style="min-height:1.5em;margin:10px 0 0"></p>
+    </form>
+    <p class="small muted" style="margin:6px 0 0"><a href="#" id="forgotLink">Forgot password?</a> · <a href="index.html">Back to website</a></p>
   </div>
 </div>
 
@@ -240,12 +246,26 @@ tbody tr.click:hover{background:#fafaf5}
   </div>
 </div>
 
+<div id="pwView" class="login" hidden>
+  <div class="login-card">
+    <img src="assets/icon.png" alt="">
+    <h1>Set your password</h1>
+    <p class="s">Use at least 8 characters.</p>
+    <form id="pwForm" style="text-align:left">
+      <div class="f"><label for="pw1">New password</label><input id="pw1" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div class="f"><label for="pw2">Type it again</label><input id="pw2" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button class="btn pri" style="width:100%;padding:12px" id="pwBtn">Save password</button>
+      <p id="pwErr" class="small" style="color:var(--bad);min-height:1.5em;margin:10px 0 0"></p>
+    </form>
+  </div>
+</div>
+
 <div id="appView" class="shell" hidden>
   <aside class="side">
     <a class="brand" href="#/">move<img src="assets/icon-light.png" alt=""><span class="w">well</span></a>
     <div class="loc">Marikina Sports Center</div>
     <nav id="nav" aria-label="Sections"></nav>
-    <div class="me"><b id="meName"></b><span id="meRole"></span><br><button id="signOut">Sign out</button></div>
+    <div class="me"><b id="meName"></b><span id="meRole"></span><br><button id="chgPw">Change password</button> <button id="signOut">Sign out</button></div>
   </aside>
   <main class="main" id="view"></main>
 </div>
@@ -343,14 +363,60 @@ function printHeader(title, right) {
 /* ============================================================
    Auth & boot
    ============================================================ */
-function show(id) { ["loginView", "pendingView", "appView"].forEach(v => $("#" + v).hidden = v !== id); }
+function show(id) { ["loginView", "pendingView", "appView", "pwView"].forEach(v => $("#" + v).hidden = v !== id); }
+
+// Links from reset / invite emails arrive as #access_token=…&type=recovery (or invite), or with an error.
+const AUTH_HASH = location.hash + "&" + location.search;
+const AUTH_LINK = (AUTH_HASH.match(/[#&?]type=(recovery|invite|signup|magiclink)/) || [])[1] || null;
+const AUTH_ERR = (AUTH_HASH.match(/error_description=([^&]+)/) || [])[1] || null;
+function clearAuthHash() { if (AUTH_LINK || AUTH_ERR || /access_token|[?&]code=/.test(location.href)) history.replaceState(null, "", location.pathname); }
+function showPwView() { clearAuthHash(); show("pwView"); setTimeout(() => $("#pw1").focus(), 30); }
 
 async function init() {
   if (!CONFIGURED) { show("loginView"); $("#cfgWarn").hidden = false; $("#lgBtn").disabled = true; return; }
   const { data: { session } } = await sb.auth.getSession();
-  if (session) await boot(); else show("loginView");
-  sb.auth.onAuthStateChange(ev => { if (ev === "SIGNED_OUT") { S.me = null; show("loginView"); } });
+  if (AUTH_ERR) {
+    clearAuthHash(); show("loginView");
+    $("#lgErr").textContent = "That link has expired or was already used. Use “Forgot password?” to get a new one.";
+  } else if (session && AUTH_LINK) showPwView();
+  else if (session) { clearAuthHash(); await boot(); }
+  else show("loginView");
+  sb.auth.onAuthStateChange(ev => {
+    if (ev === "SIGNED_OUT") { S.me = null; show("loginView"); }
+    if (ev === "PASSWORD_RECOVERY") showPwView();
+  });
 }
+
+$("#forgotLink").onclick = e => {
+  e.preventDefault();
+  const f = $("#forgotForm"), showing = !f.hidden;
+  f.hidden = showing; $("#loginForm").hidden = !showing;
+  e.target.textContent = showing ? "Forgot password?" : "Back to sign in";
+  if (!showing) { $("#fgEmail").value = $("#lgEmail").value; $("#fgEmail").focus(); }
+};
+$("#forgotForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = $("#fgBtn"); btn.disabled = true; btn.textContent = "Sending…";
+  const { error } = await sb.auth.resetPasswordForEmail($("#fgEmail").value.trim(), { redirectTo: location.origin + location.pathname });
+  btn.disabled = false; btn.textContent = "Send reset link";
+  const m = $("#fgMsg");
+  if (error && /rate|limit|seconds/i.test(error.message)) { m.style.color = "var(--bad)"; m.textContent = "Too many requests. Wait a minute, then try again."; return; }
+  if (error) { m.style.color = "var(--bad)"; m.textContent = error.message; return; }
+  m.style.color = "var(--ok)"; m.textContent = "If that email has a staff account, a reset link is on its way. Check spam too.";
+});
+$("#pwForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const a = $("#pw1").value, b = $("#pw2").value, err = $("#pwErr");
+  if (a.length < 8) { err.textContent = "Use at least 8 characters."; return; }
+  if (a !== b) { err.textContent = "The two passwords don’t match."; return; }
+  const btn = $("#pwBtn"); btn.disabled = true; btn.textContent = "Saving…";
+  const { error } = await sb.auth.updateUser({ password: a });
+  btn.disabled = false; btn.textContent = "Save password";
+  if (error) { err.textContent = /different|same/i.test(error.message) ? "Choose a password different from the old one." : error.message; return; }
+  $("#pw1").value = $("#pw2").value = ""; err.textContent = "";
+  toast("Password saved");
+  await boot();
+});
 
 $("#loginForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -362,6 +428,23 @@ $("#loginForm").addEventListener("submit", async e => {
   await boot();
 });
 $("#signOut").onclick = () => sb.auth.signOut();
+$("#chgPw").onclick = () => {
+  const m = openModal(`<h3>Change password</h3><form id="cpForm">
+    <div class="f"><label>New password</label><input type="password" id="cp1" autocomplete="new-password" minlength="8" required></div>
+    <div class="f"><label>Type it again</label><input type="password" id="cp2" autocomplete="new-password" minlength="8" required></div>
+    <p class="small muted">At least 8 characters. You’ll stay signed in on this device.</p>
+    <div class="foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn pri">Save password</button></div></form>`);
+  $("[data-x]", m).onclick = closeModal;
+  $("#cpForm").onsubmit = async e => {
+    e.preventDefault();
+    const a = $("#cp1").value, b = $("#cp2").value;
+    if (a.length < 8) return toast("Use at least 8 characters.", true);
+    if (a !== b) return toast("The two passwords don’t match.", true);
+    const { error } = await sb.auth.updateUser({ password: a });
+    if (error) return fail(error);
+    closeModal(); toast("Password changed");
+  };
+};
 $("#pendingOut").onclick = () => sb.auth.signOut();
 
 async function boot() {
