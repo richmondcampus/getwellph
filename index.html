@@ -289,18 +289,18 @@ const FALLBACK = [
  ["Wellness Massage","Foot Massage",30,300],["Wellness Massage","Hydro Therapy",null,null],
  ["Chair Massage","Chair Massage – Movewell",15,150],["Chair Massage","Chair Massage – Movewell",20,200],["Chair Massage","Chair Massage – Movewell",30,300],
  ["Chair Massage","Chair Massage – Move Up",15,170],["Chair Massage","Chair Massage – Move Up",20,220],["Chair Massage","Chair Massage – Move Up",30,320],
- ["Detox & IV Therapy","Foot Detox",null,1000],["Detox & IV Therapy","Foot Therapy",90,1499],
- ["Detox & IV Therapy","Regular Vitamin C",null,5500,1],["Detox & IV Therapy","High Dose Vitamin C",null,6500,1],["Detox & IV Therapy","Mega Dose Vitamin C",null,7500,1],
- ["Detox & IV Therapy","Alpha Lipoic Acid",null,5000,1],["Detox & IV Therapy","Gluta Push",null,2500,1],["Detox & IV Therapy","Chelation",null,6000,1],
- ["Detox & IV Therapy","Plaquex",null,6000,1],["Detox & IV Therapy","NAD+ Therapy",null,10000,1],["Detox & IV Therapy","Meyers’ Cocktail",null,4500,1],
- ["Detox & IV Therapy","Coffee Colon Enema",null,null,0,1],
+ ["Detox & Foot Care","Foot Detox",null,1000],["Detox & Foot Care","Foot Therapy",90,1499],
+ ["IV Therapy","Regular Vitamin C",null,5500,1],["IV Therapy","High Dose Vitamin C",null,6500,1],["IV Therapy","Mega Dose Vitamin C",null,7500,1],
+ ["IV Therapy","Alpha Lipoic Acid",null,5000,1],["IV Therapy","Gluta Push",null,2500,1],["IV Therapy","Chelation",null,6000,1],
+ ["IV Therapy","Plaquex",null,6000,1],["IV Therapy","NAD+ Therapy",null,10000,1],["IV Therapy","Meyers’ Cocktail",null,4500,1],
+ ["Detox & Foot Care","Coffee Colon Enema",null,null,0,1],
  ["Beauty & Nails","Eyebrow Threading",null,200],["Beauty & Nails","Manicure – Cleaning",null,120],["Beauty & Nails","Manicure – with Basic Polish",null,150],
  ["Beauty & Nails","Pedicure – Cleaning",null,150],["Beauty & Nails","Pedicure – with Basic Polish",null,180],["Beauty & Nails","Foot Spa",null,250],["Beauty & Nails","Hand Spa",null,200],
  ["Beauty & Nails","Nail Art",null,null,0,1],["Beauty & Nails","Gel Polish",null,null,0,1],["Beauty & Nails","Soft Gel",null,null,0,1],["Beauty & Nails","Nail Extensions",null,null,0,1]
 ].map((r,i)=>({id:null,category:r[0],name:r[1],duration_min:r[2],price:r[3],is_iv:!!r[4],coming_soon:!!r[5],show_on_site:true,sort_order:i}));
 
-const CAT_ORDER = ["Wellness Massage","Chair Massage","Detox & IV Therapy","Beauty & Nails"];
-const CAT_NOTES = {"Detox & IV Therapy":"IV treatments are given by licensed doctors. A short health check is done before your session.","Chair Massage":"Quick seated sessions, good before or after a game."};
+const CAT_ORDER = ["Wellness Massage","Chair Massage","Detox & Foot Care","IV Therapy","Beauty & Nails"];
+const CAT_NOTES = {"IV Therapy":"IV treatments are given by licensed doctors. A short health check is done before your session.","Chair Massage":"Quick seated sessions, good before or after a game."};
 const DEFAULT_SETTINGS = {
   phones:["+63 927 557 3040"], instagram:"movewell.wc", facebook_name:"Movewell - Wellness center", facebook_url:"",
   message_url:"https://qr.generatorqr.com/DAA5kp7Dn", address:"Marikina Sports Center, Marikina City",
